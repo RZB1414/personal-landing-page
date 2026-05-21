@@ -1,197 +1,197 @@
 import { motion } from 'framer-motion';
-import {
-  AppWindow,
-  Bot,
-  Cloud,
-  Code2,
-  Instagram,
-  Layers3,
-  Mail,
-  Radar,
-  ScrollText,
-} from 'lucide-react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { Code2, Send, X } from 'lucide-react';
 
 import heroImg from './assets/landing/hero-img.png';
-import heroBrandBg from './assets/landing/redcoast-background.png';
+import heroBrandBg from './assets/landing/red_coast_circuit_background_exact.svg';
 import logoImg from './assets/landing/logo-new.png';
 
-const services = [
-  {
-    title: 'Sistemas & Dashboards',
-    description:
-      'Ferramentas internas para otimizar sua operacao. Dashboards analiticos em tempo real.',
-    icon: Layers3,
-  },
-  {
-    title: 'Integracoes com IA',
-    description:
-      'Automacao inteligente e analise preditiva. Integrando o poder do GPT e outras LLMs ao seu negocio.',
-    icon: Bot,
-  },
-  {
-    title: 'Web Apps',
-    description:
-      'Aplicacoes escalaveis, rapidas e seguras. Focadas na melhor experiencia do usuario final.',
-    icon: AppWindow,
-  },
-];
+const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
+const contactEndpoint = apiUrl ? `${apiUrl.replace(/\/$/, '')}/contact` : '/contact';
+const defaultMessage =
+  'Ola, Red Coast Labs. Quero conversar sobre um projeto de software, dashboard ou automacao com IA.';
 
-const steps = [
-  {
-    number: '01.',
-    title: 'Discovery',
-    description: 'Entendimento profundo do seu negocio, desafios e objetivos.',
-    icon: Radar,
-  },
-  {
-    number: '02.',
-    title: 'Arquitetura',
-    description: 'Desenho da solucao tecnica e prototipagem da interface.',
-    icon: ScrollText,
-  },
-  {
-    number: '03.',
-    title: 'Desenvolvimento',
-    description: 'Codigo limpo, sprints ageis e entregas iterativas.',
-    icon: Code2,
-  },
-  {
-    number: '04.',
-    title: 'Deploy & Suporte',
-    description: 'Lancamento seguro e monitoramento continuo da aplicacao.',
-    icon: Cloud,
-  },
+const navItems = [
+  { label: 'Servicos', href: '#servicos' },
+  { label: 'Processo', href: '#processo' },
+  { label: 'Contato', href: '#contato' },
 ];
 
 function App() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [formError, setFormError] = useState('');
+
+  const openContact = () => {
+    setFormStatus('idle');
+    setFormError('');
+    setIsContactOpen(true);
+  };
+
+  const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    setFormStatus('sending');
+    setFormError('');
+
+    const formData = new FormData(form);
+    const payload = {
+      name: String(formData.get('name') ?? '').trim(),
+      email: String(formData.get('email') ?? '').trim(),
+      phone: String(formData.get('phone') ?? '').trim(),
+      message: String(formData.get('message') ?? '').trim(),
+    };
+
+    try {
+      const response = await fetch(contactEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Nao foi possivel enviar a mensagem agora.');
+      }
+
+      setFormStatus('sent');
+      form.reset();
+    } catch (error) {
+      setFormStatus('error');
+      setFormError(error instanceof Error ? error.message : 'Nao foi possivel enviar a mensagem agora.');
+    }
+  };
+
   return (
+    <main className="landing-page">
+      <header className="site-header" aria-label="Navegacao principal">
+        <a className="site-brand" href="#home" aria-label="Red Coast Labs">
+          Red Coast Labs
+        </a>
+        <nav className="site-nav">
+          {navItems.map((item) =>
+            item.href === '#contato' ? (
+              <button key={item.href} type="button" onClick={openContact}>
+                {item.label}
+              </button>
+            ) : (
+              <a key={item.href} href={item.href}>
+                {item.label}
+              </a>
+            ),
+          )}
+        </nav>
+      </header>
 
-      <main className="landing-page">
-        <section id="home" className="hero-section">
-          <div className="hero-panel">
-            <motion.div
-              className="hero-brand-mark"
-              style={{
-                backgroundImage: `url(${heroBrandBg})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'contain',
-              }}
-              initial={{ opacity: 0, scale: 0.92, y: 24 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+      <section id="home" className="hero-section" aria-label="Red Coast Labs Software Development">
+        <motion.div
+          className="hero-poster"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <div
+            className="poster-circuit-field"
+            style={{
+              backgroundImage: `url(${heroBrandBg})`,
+            }}
+            aria-hidden="true"
+          />
+
+          <div className="studio-pill">
+            <span aria-hidden="true">✦</span>
+            Premium Software Studio
+          </div>
+
+          <div className="logoCircleMask">
+            <img className="brand-seal" src={logoImg} alt="Red Coast Labs Software Development" />
+          </div>
+
+          <div className="brand-title">
+            <h1>Red Coast Labs</h1>
+            <p>Software Development</p>
+          </div>
+
+          <div id="servicos" className="contact-card">
+            <div className="code-badge" aria-hidden="true">
+              <Code2 />
+            </div>
+            <p>
+              Desenvolvimento de sistemas, dashboards e automacoes com IA para empresas que querem reduzir
+              trabalho manual e operar com mais velocidade.
+            </p>
+            <button id="contato" className="hero-contact-button" type="button" onClick={openContact}>
+              <span className="send-orb">
+                <Send aria-hidden="true" />
+              </span>
+              Entre em contato
+            </button>
+          </div>
+
+          <div id="processo" className="service-strip" aria-label="Servicos Red Coast Labs">
+            <span>Sites</span>
+            <span>Sistemas</span>
+            <span>Automacao</span>
+            <span>IA</span>
+          </div>
+
+          <div className="poster-landscape" aria-hidden="true">
+            <img src={heroImg} alt="" />
+          </div>
+        </motion.div>
+      </section>
+
+      {isContactOpen ? (
+        <div className="contact-overlay" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+          <div className="contact-modal">
+            <button
+              className="contact-close"
+              type="button"
+              aria-label="Fechar contato"
+              onClick={() => setIsContactOpen(false)}
             >
-              <img src={logoImg} alt="Red Coast Labs Software Development" />
-            </motion.div>
+              <X aria-hidden="true" />
+            </button>
 
-            <motion.div
-              className="hero-copy"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.08 }}
-            >
-              <h1>Red Coast Labs</h1>
-              <h2>Software Development</h2>
-              <p className="hero-subtitle">Innovating at the edge of discovery.</p>
-            </motion.div>
-
-            <motion.div
-              className="hero-art-frame"
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <img src={heroImg} alt="Arte hero Red Coast Labs" className="hero-artwork" />
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="servicos" className="content-section">
-          <div className="section-header">
-            <span className="section-tag">Servicos</span>
-            <h2>Solucoes desenhadas para operacao, velocidade e escala.</h2>
-          </div>
-
-          <div className="stack-grid">
-            {services.map(({ title, description, icon: Icon }, index) => (
-              <motion.article
-                key={title}
-                className="feature-card"
-                initial={{ opacity: 0, y: 26 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.55, delay: index * 0.08 }}
-              >
-                <div className="feature-card-icon">
-                  <Icon />
-                </div>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </motion.article>
-            ))}
-          </div>
-        </section>
-
-        <section id="processo" className="content-section process-section">
-          <div className="section-header">
-            <span className="section-tag">Processo</span>
-            <h2>Da descoberta ao deploy, com clareza em cada etapa.</h2>
-          </div>
-
-          <motion.div
-            className="process-board"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-          >
-            {steps.map(({ number, title, description, icon: Icon }, index) => (
-              <div key={title} className="process-step">
-                <div className="process-step-icon">
-                  <Icon />
-                </div>
-                <div className="process-step-copy">
-                  <h3>
-                    <span>{number}</span> {title}
-                  </h3>
-                  <p>{description}</p>
-                </div>
-                {index < steps.length - 1 ? <div className="process-divider" aria-hidden="true" /> : null}
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            id="contato"
-            className="contact-board"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
-          >
-            <div className="contact-heading">
-              <h2>Vamos construir juntos</h2>
-              <p>Transforme sua visao em software de alto impacto.</p>
+            <div className="contact-modal-copy">
+              <span className="section-tag">Contato</span>
+              <h2 id="contact-title">Conte rapidamente o que voce quer construir.</h2>
+              <p>
+                A mensagem chega direto para a Red Coast Labs com seu email e telefone para retornarmos
+                com um primeiro caminho tecnico.
+              </p>
             </div>
 
-            <div className="contact-links">
-              <a href="mailto:hello@redcoast.com" className="contact-pill">
-                <Mail />
-                <span>hello@redcoast.com</span>
-              </a>
-              <a
-                href="https://instagram.com/redcoastlabs"
-                target="_blank"
-                rel="noreferrer"
-                className="contact-pill"
-              >
-                <Instagram />
-                <span>@redcoastlabs</span>
-              </a>
-            </div>
-          </motion.div>
-        </section>
-      </main>
+            <form className="contact-form" onSubmit={handleContactSubmit}>
+              <label>
+                Nome
+                <input name="name" type="text" placeholder="Seu nome" autoComplete="name" />
+              </label>
+              <label>
+                Email
+                <input name="email" type="email" placeholder="voce@empresa.com" autoComplete="email" required />
+              </label>
+              <label>
+                Telefone
+                <input name="phone" type="tel" placeholder="(00) 00000-0000" autoComplete="tel" required />
+              </label>
+              <label>
+                Mensagem
+                <textarea name="message" defaultValue={defaultMessage} rows={5} required />
+              </label>
+
+              {formStatus === 'sent' ? <p className="form-feedback">Mensagem enviada. Obrigado pelo contato.</p> : null}
+              {formStatus === 'error' ? <p className="form-feedback form-feedback-error">{formError}</p> : null}
+
+              <button className="form-submit" type="submit" disabled={formStatus === 'sending'}>
+                {formStatus === 'sending' ? 'Enviando...' : 'Enviar'}
+                <Send aria-hidden="true" />
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : null}
+    </main>
   );
 }
 
