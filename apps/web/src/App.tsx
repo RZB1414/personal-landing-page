@@ -169,7 +169,7 @@ function App() {
           </h1>
           <p className="hero-sub">Software Development</p>
           <p className="hero-copy">
-            Sistemas sob medida, dashboards e automações com IA para empresas que querem reduzir trabalho
+            Sistemas sob medida, dashboards e automações para empresas que querem reduzir trabalho
             manual e operar com mais velocidade.
           </p>
           <div className="hero-actions">
@@ -428,7 +428,7 @@ function App() {
                 Buiatti<span className="dot">.com</span>
               </a>
               <p>
-                Desenvolvimento de software sob medida — sistemas, dashboards e automações com IA. Código
+                Desenvolvimento de software sob medida — sistemas, dashboards e automações. Código
                 limpo, performance real.
               </p>
             </div>
