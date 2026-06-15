@@ -169,8 +169,9 @@ function App() {
           </h1>
           <p className="hero-sub">Software Development</p>
           <p className="hero-copy">
-            Sistemas sob medida, dashboards e automações para empresas que querem reduzir trabalho
-            manual e operar com mais velocidade.
+            Sistemas sob medida, dashboards e automações.
+            <br />
+            Reduza o trabalho manual e opere com mais velocidade.
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary" type="button" onClick={openContact}>
