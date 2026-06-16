@@ -319,7 +319,7 @@ const en: Dict = {
   modal: {
     eyebrow: 'Contact',
     title: 'Tell me what you want to build',
-    desc: "The message comes straight to me with your email and phone, and I'll reply with a first technical direction.",
+    desc: "You'll receive a reply with a first technical direction and the next steps.",
     closeAria: 'Close contact',
     name: 'Name',
     email: 'Email',
