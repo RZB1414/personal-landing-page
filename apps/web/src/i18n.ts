@@ -40,7 +40,7 @@ export interface Dict {
     title: string;
     intro: string;
     visit: string;
-    items: { kind: string; title: string; desc: string; url: string }[];
+    items: { id: string; kind: string; title: string; desc: string; url?: string; modalDesc?: string }[];
   };
   cta: { eyebrow: string; title: string; desc: string; button: string };
   footer: {
@@ -154,16 +154,34 @@ const pt: Dict = {
     visit: 'Ver projeto',
     items: [
       {
+        id: 'playerson',
         kind: 'Web App · Esporte',
         title: 'Playerson',
         desc: 'Plataforma web para o universo do vôlei, com conteúdo em vídeo e pagamentos online.',
         url: 'https://playerson.com.br',
       },
       {
+        id: 'tarso',
         kind: 'Portfólio · Arte',
         title: 'Tarso Art',
         desc: 'Site-portfólio de um quadrinista, reunindo ilustrações e trabalhos de arte em uma vitrine visual.',
         url: 'https://tarso-art.pages.dev',
+      },
+      {
+        id: 'playerson-app',
+        kind: 'Plataforma · SaaS',
+        title: 'PlayersOn',
+        desc: 'Perfis públicos de atletas com vídeos, QR code compartilhável e assinaturas Pro.',
+        modalDesc:
+          'PlayersOn, uma plataforma multilíngue (PT/IT/EN) de perfis públicos para atletas: cada jogador tem uma página única baseada em slug, reunindo dados, vídeos e informações de contato em um link compartilhável com QR code, com assinaturas Pro integradas ao Stripe e analytics nativo de visualizações e engajamento.',
+      },
+      {
+        id: 'volleyplus',
+        kind: 'Analytics · Esporte',
+        title: 'VolleyPlus',
+        desc: 'Sistema de análise de vôlei: processa dados de jogo, gera relatórios e apoia a análise de desempenho.',
+        modalDesc:
+          'VolleyPlus, um sistema de análise de vôlei para processar dados de partidas, gerar relatórios e apoiar a análise de desempenho.',
       },
     ],
   },
@@ -281,16 +299,34 @@ const en: Dict = {
     visit: 'View project',
     items: [
       {
+        id: 'playerson',
         kind: 'Web App · Sports',
         title: 'Playerson',
         desc: 'A web platform for the volleyball world, with video content and online payments.',
         url: 'https://playerson.com.br',
       },
       {
+        id: 'tarso',
         kind: 'Portfolio · Art',
         title: 'Tarso Art',
         desc: 'Portfolio site for a comic artist, showcasing illustrations and artwork in a visual gallery.',
         url: 'https://tarso-art.pages.dev',
+      },
+      {
+        id: 'playerson-app',
+        kind: 'Platform · SaaS',
+        title: 'PlayersOn',
+        desc: 'Public athlete profiles with videos, a shareable QR code and Pro subscriptions.',
+        modalDesc:
+          'PlayersOn, a multilingual (PT/IT/EN) public-profile platform for athletes: each player has a unique slug-based page combining data, videos, and contact information in a shareable link with QR code, with Stripe-integrated Pro subscriptions and built-in analytics for views and engagement.',
+      },
+      {
+        id: 'volleyplus',
+        kind: 'Analytics · Sports',
+        title: 'VolleyPlus',
+        desc: 'Volleyball analytics: processes match data, generates reports and supports performance analysis.',
+        modalDesc:
+          'VolleyPlus, a volleyball analytics system for processing match data, generating reports, and supporting performance analysis.',
       },
     ],
   },
@@ -408,16 +444,34 @@ const it: Dict = {
     visit: 'Vedi progetto',
     items: [
       {
+        id: 'playerson',
         kind: 'Web App · Sport',
         title: 'Playerson',
         desc: 'Una piattaforma web per il mondo del volley, con contenuti video e pagamenti online.',
         url: 'https://playerson.com.br',
       },
       {
+        id: 'tarso',
         kind: 'Portfolio · Arte',
         title: 'Tarso Art',
         desc: "Sito-portfolio per un fumettista, con illustrazioni e opere d'arte in una vetrina visiva.",
         url: 'https://tarso-art.pages.dev',
+      },
+      {
+        id: 'playerson-app',
+        kind: 'Piattaforma · SaaS',
+        title: 'PlayersOn',
+        desc: 'Profili pubblici di atleti con video, QR code condivisibile e abbonamenti Pro.',
+        modalDesc:
+          'PlayersOn, una piattaforma multilingue (PT/IT/EN) di profili pubblici per atleti: ogni giocatore ha una pagina unica basata su slug, che combina dati, video e informazioni di contatto in un link condivisibile con QR code, con abbonamenti Pro integrati con Stripe e analytics integrato per visualizzazioni ed engagement.',
+      },
+      {
+        id: 'volleyplus',
+        kind: 'Analytics · Sport',
+        title: 'VolleyPlus',
+        desc: "Analisi di pallavolo: elabora i dati delle partite, genera report e supporta l'analisi delle prestazioni.",
+        modalDesc:
+          "VolleyPlus, un sistema di analisi di pallavolo per elaborare i dati delle partite, generare report e supportare l'analisi delle prestazioni.",
       },
     ],
   },

@@ -5,11 +5,9 @@ import heroImg from './assets/landing/hero-img.png';
 import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
 import playersonImg from './assets/projects/playerson.jpg';
 import tarsoImg from './assets/projects/tarso-art.jpg';
-
-const PROJECT_IMAGES: Record<string, string> = {
-  'https://playerson.com.br': playersonImg,
-  'https://tarso-art.pages.dev': tarsoImg,
-};
+import playersonProfileImg from './assets/projects/playerson-profile.jpg';
+import volleyplusServeImg from './assets/projects/volleyplus-serve.png';
+import volleyplusPrefsImg from './assets/projects/volleyplus-prefs.png';
 import {
   LANGS,
   countryToLang,
@@ -18,8 +16,19 @@ import {
   hasSavedLang,
   saveLang,
   translations,
+  type Dict,
   type Lang,
 } from './i18n';
+
+type ProjectItem = Dict['projects']['items'][number];
+
+/** Per-project media (cover thumbnail + optional modal gallery), keyed by item id. */
+const PROJECT_MEDIA: Record<string, { cover: string; gallery?: string[] }> = {
+  playerson: { cover: playersonImg },
+  tarso: { cover: tarsoImg },
+  'playerson-app': { cover: playersonProfileImg, gallery: [playersonProfileImg] },
+  volleyplus: { cover: volleyplusServeImg, gallery: [volleyplusServeImg, volleyplusPrefsImg] },
+};
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
 const contactEndpoint = apiUrl ? `${apiUrl.replace(/\/$/, '')}/contact` : '/contact';
@@ -52,6 +61,8 @@ function App() {
   const [lang, setLang] = useState<Lang>(getInitialLang);
   const [langOpen, setLangOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [project, setProject] = useState<ProjectItem | null>(null);
+  const [projectOpen, setProjectOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [formError, setFormError] = useState('');
 
@@ -133,19 +144,22 @@ function App() {
     };
   }, []);
 
-  // Lock body scroll + Escape-to-close while modal is open
+  // Lock body scroll + Escape-to-close while any modal is open
   useEffect(() => {
-    if (!isContactOpen) return;
+    if (!isContactOpen && !projectOpen) return;
     document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsContactOpen(false);
+      if (e.key === 'Escape') {
+        setIsContactOpen(false);
+        setProjectOpen(false);
+      }
     };
     document.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', onKey);
     };
-  }, [isContactOpen]);
+  }, [isContactOpen, projectOpen]);
 
   // Close the language dropdown on outside click / Escape
   useEffect(() => {
@@ -174,6 +188,11 @@ function App() {
     setFormStatus('idle');
     setFormError('');
     setIsContactOpen(true);
+  };
+
+  const openProject = (item: ProjectItem) => {
+    setProject(item);
+    setProjectOpen(true);
   };
 
   const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -444,26 +463,21 @@ function App() {
           </div>
           <div className="proj-grid">
             {t.projects.items.map((p) => {
-              const domain = new URL(p.url).hostname.replace(/^www\./, '');
-              const shot = PROJECT_IMAGES[p.url];
-              return (
-                <a
-                  className="proj"
-                  data-reveal
-                  key={p.title}
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              const media = PROJECT_MEDIA[p.id];
+              const cover = media?.cover;
+              const domain = p.url ? new URL(p.url).hostname.replace(/^www\./, '') : null;
+              const label = domain ?? p.title;
+              const inner = (
+                <>
                   <div className="proj-shot">
                     <div className="proj-window" aria-hidden="true">
                       <span className="dot" />
                       <span className="dot" />
                       <span className="dot" />
-                      <span className="proj-url">{domain}</span>
+                      <span className="proj-url">{label}</span>
                     </div>
-                    {shot ? (
-                      <img className="proj-img" src={shot} alt={`${p.title} — ${domain}`} loading="lazy" />
+                    {cover ? (
+                      <img className="proj-img" src={cover} alt={`${p.title} — ${label}`} loading="lazy" />
                     ) : (
                       <span className="proj-wordmark">{p.title}</span>
                     )}
@@ -480,7 +494,29 @@ function App() {
                       </svg>
                     </span>
                   </div>
+                </>
+              );
+              return p.url ? (
+                <a className="proj" data-reveal key={p.id} href={p.url} target="_blank" rel="noopener noreferrer">
+                  {inner}
                 </a>
+              ) : (
+                <div
+                  className="proj proj-clickable"
+                  data-reveal
+                  key={p.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openProject(p)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      openProject(p);
+                    }
+                  }}
+                >
+                  {inner}
+                </div>
               );
             })}
           </div>
@@ -619,6 +655,40 @@ function App() {
               <SendIcon />
             </button>
           </form>
+        </div>
+      </div>
+
+      {/* ============ PROJECT MODAL ============ */}
+      <div
+        className={`overlay${projectOpen ? ' open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="projModalTitle"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setProjectOpen(false);
+        }}
+      >
+        <div className="proj-modal">
+          <button className="modal-close" type="button" onClick={() => setProjectOpen(false)} aria-label={t.modal.closeAria}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          {project ? (
+            <>
+              <div className="proj-modal-head">
+                <span className="eyebrow">{project.kind}</span>
+                <h2 id="projModalTitle">{project.title}</h2>
+                <p>{project.modalDesc ?? project.desc}</p>
+              </div>
+              <div className="proj-modal-gallery">
+                {(PROJECT_MEDIA[project.id]?.gallery ?? []).map((src, i) => (
+                  <img key={i} src={src} alt={`${project.title} — ${i + 1}`} loading="lazy" />
+                ))}
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </>
