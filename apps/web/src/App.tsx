@@ -3,6 +3,13 @@ import type { FormEvent } from 'react';
 
 import heroImg from './assets/landing/hero-img.png';
 import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
+import playersonImg from './assets/projects/playerson.jpg';
+import tarsoImg from './assets/projects/tarso-art.jpg';
+
+const PROJECT_IMAGES: Record<string, string> = {
+  'https://playerson.com.br': playersonImg,
+  'https://tarso-art.pages.dev': tarsoImg,
+};
 import {
   LANGS,
   countryToLang,
@@ -79,18 +86,24 @@ function App() {
 
   // Reveal on scroll + count-up numbers
   useEffect(() => {
+    const reveal = (el: Element) => el.classList.add('in');
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add('in');
+            reveal(e.target);
             io.unobserve(e.target);
           }
         });
       },
-      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
     );
-    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      // Reveal anything already in or above the viewport on load (e.g. restored scroll on
+      // refresh) so it can never stay stuck invisible; observe only what's still below the fold.
+      if (el.getBoundingClientRect().top < window.innerHeight) reveal(el);
+      else io.observe(el);
+    });
 
     const cio = new IntersectionObserver(
       (entries) => {
@@ -432,6 +445,7 @@ function App() {
           <div className="proj-grid">
             {t.projects.items.map((p) => {
               const domain = new URL(p.url).hostname.replace(/^www\./, '');
+              const shot = PROJECT_IMAGES[p.url];
               return (
                 <a
                   className="proj"
@@ -448,7 +462,11 @@ function App() {
                       <span className="dot" />
                       <span className="proj-url">{domain}</span>
                     </div>
-                    <span className="proj-wordmark">{p.title}</span>
+                    {shot ? (
+                      <img className="proj-img" src={shot} alt={`${p.title} — ${domain}`} loading="lazy" />
+                    ) : (
+                      <span className="proj-wordmark">{p.title}</span>
+                    )}
                   </div>
                   <div className="proj-body">
                     <div className="kind">{p.kind}</div>
