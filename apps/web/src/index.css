@@ -873,8 +873,6 @@ form input:focus, form textarea:focus { border-color: rgba(127,224,255,0.55); bo
   .feature-copy { padding: 34px 30px 0; }
   .proc-grid { grid-template-columns: repeat(2, 1fr); }
   .proj-grid { grid-template-columns: repeat(2, 1fr); }
-  .stats .wrap { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
-  .stats .wrap .stat:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 720px) {
   .site-nav { display: none; }
@@ -893,4 +891,7 @@ form input:focus, form textarea:focus { border-color: rgba(127,224,255,0.55); bo
   .footer-cols { gap: 36px; }
   .hero { padding-top: 130px; }
   .proc::after { display: none; }
+  .stats .wrap { gap: 10px; }
+  .stat .num { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+  .stat .lbl { font-size: 0.58rem; letter-spacing: 0.1em; }
 }
