@@ -430,18 +430,41 @@ function App() {
             <p>{t.projects.intro}</p>
           </div>
           <div className="proj-grid">
-            {t.projects.items.map((p) => (
-              <article className="proj" data-reveal key={p.title}>
-                <div className="proj-shot">
-                  <span className="ph">{t.projects.placeholder}</span>
-                </div>
-                <div className="proj-body">
-                  <div className="kind">{p.kind}</div>
-                  <h4>{p.title}</h4>
-                  <p>{p.desc}</p>
-                </div>
-              </article>
-            ))}
+            {t.projects.items.map((p) => {
+              const domain = new URL(p.url).hostname.replace(/^www\./, '');
+              return (
+                <a
+                  className="proj"
+                  data-reveal
+                  key={p.title}
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="proj-shot">
+                    <div className="proj-window" aria-hidden="true">
+                      <span className="dot" />
+                      <span className="dot" />
+                      <span className="dot" />
+                      <span className="proj-url">{domain}</span>
+                    </div>
+                    <span className="proj-wordmark">{p.title}</span>
+                  </div>
+                  <div className="proj-body">
+                    <div className="kind">{p.kind}</div>
+                    <h4>{p.title}</h4>
+                    <p>{p.desc}</p>
+                    <span className="proj-visit">
+                      {t.projects.visit}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M7 17 17 7" />
+                        <path d="M7 7h10v10" />
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>

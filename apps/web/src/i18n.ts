@@ -39,8 +39,8 @@ export interface Dict {
     eyebrow: string;
     title: string;
     intro: string;
-    placeholder: string;
-    items: { kind: string; title: string; desc: string }[];
+    visit: string;
+    items: { kind: string; title: string; desc: string; url: string }[];
   };
   cta: { eyebrow: string; title: string; desc: string; button: string };
   footer: {
@@ -150,23 +150,20 @@ const pt: Dict = {
   projects: {
     eyebrow: 'Projetos',
     title: 'Trabalhos selecionados',
-    intro: 'Uma amostra do tipo de produto que construo. Substitua pelos seus próprios cases quando quiser.',
-    placeholder: 'screenshot do projeto · 16:10',
+    intro: 'Alguns dos produtos que coloquei no ar — do web app à vitrine de portfólio. Clique para visitar.',
+    visit: 'Ver projeto',
     items: [
       {
-        kind: 'Dashboard · SaaS',
-        title: 'Painel de operações',
-        desc: 'Métricas em tempo real e automação de relatórios para uma equipe logística.',
+        kind: 'Web App · Esporte',
+        title: 'Playerson',
+        desc: 'Plataforma web para o universo do vôlei, com conteúdo em vídeo e pagamentos online.',
+        url: 'https://playerson.com.br',
       },
       {
-        kind: 'IA · Automação',
-        title: 'Assistente de atendimento',
-        desc: 'Bot que classifica e responde tickets, reduzindo o tempo de resposta pela metade.',
-      },
-      {
-        kind: 'Web App · E-commerce',
-        title: 'Loja sob medida',
-        desc: 'Plataforma de vendas com checkout próprio e integrações de pagamento.',
+        kind: 'Portfólio · Arte',
+        title: 'Tarso Art',
+        desc: 'Site-portfólio de um quadrinista, reunindo ilustrações e trabalhos de arte em uma vitrine visual.',
+        url: 'https://tarso-art.pages.dev',
       },
     ],
   },
@@ -280,23 +277,20 @@ const en: Dict = {
   projects: {
     eyebrow: 'Projects',
     title: 'Selected work',
-    intro: 'A sample of the kind of product I build. Replace it with your own cases whenever you like.',
-    placeholder: 'project screenshot · 16:10',
+    intro: "A few of the products I've shipped — from web app to portfolio showcase. Click to visit.",
+    visit: 'View project',
     items: [
       {
-        kind: 'Dashboard · SaaS',
-        title: 'Operations panel',
-        desc: 'Real-time metrics and report automation for a logistics team.',
+        kind: 'Web App · Sports',
+        title: 'Playerson',
+        desc: 'A web platform for the volleyball world, with video content and online payments.',
+        url: 'https://playerson.com.br',
       },
       {
-        kind: 'AI · Automation',
-        title: 'Support assistant',
-        desc: 'A bot that classifies and answers tickets, cutting response time in half.',
-      },
-      {
-        kind: 'Web App · E-commerce',
-        title: 'Custom store',
-        desc: 'Sales platform with its own checkout and payment integrations.',
+        kind: 'Portfolio · Art',
+        title: 'Tarso Art',
+        desc: 'Portfolio site for a comic artist, showcasing illustrations and artwork in a visual gallery.',
+        url: 'https://tarso-art.pages.dev',
       },
     ],
   },
@@ -410,23 +404,20 @@ const it: Dict = {
   projects: {
     eyebrow: 'Progetti',
     title: 'Lavori selezionati',
-    intro: 'Un assaggio del tipo di prodotto che costruisco. Sostituiscilo con i tuoi casi quando vuoi.',
-    placeholder: 'screenshot del progetto · 16:10',
+    intro: 'Alcuni dei prodotti che ho pubblicato — dalla web app alla vetrina di portfolio. Clicca per visitare.',
+    visit: 'Vedi progetto',
     items: [
       {
-        kind: 'Dashboard · SaaS',
-        title: 'Pannello operativo',
-        desc: 'Metriche in tempo reale e automazione dei report per un team logistico.',
+        kind: 'Web App · Sport',
+        title: 'Playerson',
+        desc: 'Una piattaforma web per il mondo del volley, con contenuti video e pagamenti online.',
+        url: 'https://playerson.com.br',
       },
       {
-        kind: 'IA · Automazione',
-        title: 'Assistente di supporto',
-        desc: 'Un bot che classifica e risponde ai ticket, dimezzando i tempi di risposta.',
-      },
-      {
-        kind: 'Web App · E-commerce',
-        title: 'Negozio su misura',
-        desc: 'Piattaforma di vendita con checkout proprio e integrazioni di pagamento.',
+        kind: 'Portfolio · Arte',
+        title: 'Tarso Art',
+        desc: "Sito-portfolio per un fumettista, con illustrazioni e opere d'arte in una vetrina visiva.",
+        url: 'https://tarso-art.pages.dev',
       },
     ],
   },
