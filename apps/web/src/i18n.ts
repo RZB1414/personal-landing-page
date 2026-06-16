@@ -219,7 +219,7 @@ const en: Dict = {
   hero: {
     sub: 'Software Development',
     copy1: 'Custom systems, dashboards and automations.',
-    copy2: 'Cut manual work and operate with more speed.',
+    copy2: 'Reduce manual work and accelerate your operations.',
     primary: 'Start a project',
     ghost: 'See services',
     scroll: 'Scroll',
