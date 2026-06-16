@@ -1,16 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 
 import heroImg from './assets/landing/hero-img.png';
 import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
+import {
+  LANGS,
+  countryToLang,
+  detectCountry,
+  getInitialLang,
+  hasSavedLang,
+  saveLang,
+  translations,
+  type Lang,
+} from './i18n';
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
 const contactEndpoint = apiUrl ? `${apiUrl.replace(/\/$/, '')}/contact` : '/contact';
 
 const CONTACT_EMAIL = 'renanbuiatti14@gmail.com';
 const INSTAGRAM_HANDLE = 'renanbuiatti';
-const defaultMessage =
-  'Olá, Buiatti.com. Quero conversar sobre um projeto de software, dashboard ou automação com IA.';
 
 type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -25,9 +33,29 @@ function SendIcon() {
 
 function App() {
   const headerRef = useRef<HTMLElement>(null);
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [formError, setFormError] = useState('');
+
+  const t = translations[lang];
+
+  // Keep <html lang> in sync for a11y / SEO
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  // Auto-detect language from the visitor's country (unless they already chose one)
+  useEffect(() => {
+    if (hasSavedLang()) return;
+    let cancelled = false;
+    detectCountry().then((country) => {
+      if (!cancelled && country) setLang(countryToLang(country));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Header shrink on scroll (DOM class toggle — avoids re-rendering on every scroll)
   useEffect(() => {
@@ -96,6 +124,12 @@ function App() {
     };
   }, [isContactOpen]);
 
+  const onLangChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const next = e.target.value as Lang;
+    setLang(next);
+    saveLang(next);
+  };
+
   const openContact = () => {
     setFormStatus('idle');
     setFormError('');
@@ -122,12 +156,12 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error('Não foi possível enviar a mensagem agora.');
+      if (!response.ok) throw new Error(t.modal.errorDefault);
       setFormStatus('sent');
       form.reset();
     } catch (error) {
       setFormStatus('error');
-      setFormError(error instanceof Error ? error.message : 'Não foi possível enviar a mensagem agora.');
+      setFormError(error instanceof Error ? error.message : t.modal.errorDefault);
     }
   };
 
@@ -139,22 +173,37 @@ function App() {
         <a className="brand" href="#home" aria-label="Buiatti.com">
           Buiatti<span className="dot">.com</span>
         </a>
-        <nav className="site-nav" aria-label="Navegação principal">
-          <a href="#servicos">Serviços</a>
-          <a href="#processo">Processo</a>
-          <a href="#projetos">Projetos</a>
-          <button
-            className="nav-cta"
-            type="button"
-            onClick={openContact}
-          >
-            Iniciar projeto
+        <div className="header-actions">
+          <nav className="site-nav" aria-label={t.nav.navAria}>
+            <a href="#servicos">{t.nav.servicos}</a>
+            <a href="#processo">{t.nav.processo}</a>
+            <a href="#projetos">{t.nav.projetos}</a>
+            <button className="nav-cta" type="button" onClick={openContact}>
+              {t.nav.cta}
+              <SendIcon />
+            </button>
+          </nav>
+          <div className="lang-select">
+            <svg className="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M2 12h20" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" />
+            </svg>
+            <select aria-label={t.nav.langAria} value={lang} onChange={onLangChange}>
+              {LANGS.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+            <svg className="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <button className="nav-toggle" type="button" onClick={openContact} aria-label={t.nav.contactAria}>
             <SendIcon />
           </button>
-        </nav>
-        <button className="nav-toggle" type="button" onClick={openContact} aria-label="Contato">
-          <SendIcon />
-        </button>
+        </div>
       </header>
 
       {/* ============ HERO ============ */}
@@ -167,24 +216,24 @@ function App() {
           <h1 className="hero-title">
             Buiatti<span className="com">.com</span>
           </h1>
-          <p className="hero-sub">Software Development</p>
+          <p className="hero-sub">{t.hero.sub}</p>
           <p className="hero-copy">
-            Sistemas sob medida, dashboards e automações.
+            {t.hero.copy1}
             <br />
-            Reduza o trabalho manual e opere com mais velocidade.
+            {t.hero.copy2}
           </p>
           <div className="hero-actions">
             <button className="btn btn-primary" type="button" onClick={openContact}>
-              Iniciar projeto
+              {t.hero.primary}
               <SendIcon />
             </button>
             <a className="btn btn-ghost" href="#servicos">
-              Ver serviços
+              {t.hero.ghost}
             </a>
           </div>
         </div>
         <div className="hero-scroll" aria-hidden="true">
-          <span>Role</span>
+          <span>{t.hero.scroll}</span>
           <span className="line" />
         </div>
       </section>
@@ -196,17 +245,17 @@ function App() {
             <div className="num">
               <span data-count="8">0</span>+
             </div>
-            <div className="lbl">Anos de código</div>
+            <div className="lbl">{t.stats.years}</div>
           </div>
           <div className="stat" data-reveal>
             <div className="num">
               <span data-count="100">0</span>%
             </div>
-            <div className="lbl">Sob medida</div>
+            <div className="lbl">{t.stats.custom}</div>
           </div>
           <div className="stat" data-reveal>
             <div className="num">1:1</div>
-            <div className="lbl">Atendimento direto</div>
+            <div className="lbl">{t.stats.direct}</div>
           </div>
         </div>
       </section>
@@ -215,12 +264,9 @@ function App() {
       <section className="services" id="servicos">
         <div className="wrap">
           <div className="section-head" data-reveal>
-            <span className="eyebrow">Serviços</span>
-            <h2>Engenharia de software sob medida</h2>
-            <p>
-              Da ideia ao deploy. Construo produtos digitais com código limpo, performance real e foco em
-              resolver o problema certo.
-            </p>
+            <span className="eyebrow">{t.services.eyebrow}</span>
+            <h2>{t.services.title}</h2>
+            <p>{t.services.intro}</p>
           </div>
 
           <div className="svc-grid">
@@ -232,11 +278,8 @@ function App() {
                     <polyline points="8 6 2 12 8 18" />
                   </svg>
                 </div>
-                <h3>Sistemas &amp; Plataformas</h3>
-                <p>
-                  Aplicações web completas, do back-end à interface. Arquitetura escalável, integrações e
-                  painéis administrativos feitos para crescer com o seu negócio.
-                </p>
+                <h3>{t.services.feature.title}</h3>
+                <p>{t.services.feature.desc}</p>
                 <div className="tags">
                   <span className="tag">React</span>
                   <span className="tag">Node.js</span>
@@ -246,7 +289,7 @@ function App() {
                 </div>
               </div>
               <div className="feature-art">
-                <span className="feature-tag">Full-stack</span>
+                <span className="feature-tag">{t.services.feature.tag}</span>
                 <img src={heroImg} alt="" />
               </div>
             </article>
@@ -260,11 +303,8 @@ function App() {
                   <path d="M22 9h-3" />
                 </svg>
               </div>
-              <h3>Automações com IA</h3>
-              <p>
-                Fluxos inteligentes que eliminam tarefas repetitivas: extração de dados, atendimento,
-                classificação e relatórios gerados automaticamente.
-              </p>
+              <h3>{t.services.ai.title}</h3>
+              <p>{t.services.ai.desc}</p>
             </article>
 
             <article className="svc wide" data-reveal>
@@ -274,11 +314,8 @@ function App() {
                   <path d="m19 9-5 5-4-4-3 3" />
                 </svg>
               </div>
-              <h3>Dashboards &amp; BI</h3>
-              <p>
-                Painéis que transformam dados dispersos em decisões. Métricas em tempo real, visualizações
-                claras e acesso de qualquer lugar.
-              </p>
+              <h3>{t.services.bi.title}</h3>
+              <p>{t.services.bi.desc}</p>
             </article>
 
             <article className="svc" data-reveal>
@@ -289,8 +326,8 @@ function App() {
                   <line x1="12" y1="17" x2="12" y2="21" />
                 </svg>
               </div>
-              <h3>Web Apps</h3>
-              <p>Aplicações rápidas e responsivas, feitas para qualquer tela.</p>
+              <h3>{t.services.web.title}</h3>
+              <p>{t.services.web.desc}</p>
             </article>
 
             <article className="svc" data-reveal>
@@ -301,8 +338,8 @@ function App() {
                   <path d="m2 17 10 5 10-5" />
                 </svg>
               </div>
-              <h3>Landing Pages</h3>
-              <p>Páginas de alta conversão com identidade forte e carregamento veloz.</p>
+              <h3>{t.services.landing.title}</h3>
+              <p>{t.services.landing.desc}</p>
             </article>
 
             <article className="svc" data-reveal>
@@ -311,8 +348,8 @@ function App() {
                   <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z" />
                 </svg>
               </div>
-              <h3>Integrações &amp; APIs</h3>
-              <p>Conecto sistemas, pagamentos e serviços externos sem fricção.</p>
+              <h3>{t.services.api.title}</h3>
+              <p>{t.services.api.desc}</p>
             </article>
           </div>
         </div>
@@ -322,31 +359,18 @@ function App() {
       <section className="process" id="processo">
         <div className="wrap">
           <div className="section-head" data-reveal>
-            <span className="eyebrow">Processo</span>
-            <h2>Como o projeto sai do papel</h2>
-            <p>Um caminho claro, com entregas frequentes e você acompanhando cada etapa.</p>
+            <span className="eyebrow">{t.process.eyebrow}</span>
+            <h2>{t.process.title}</h2>
+            <p>{t.process.intro}</p>
           </div>
           <div className="proc-grid">
-            <article className="proc" data-reveal>
-              <div className="step">01 — Discovery</div>
-              <h4>Entender</h4>
-              <p>Mergulho no seu problema, no público e nos objetivos antes de escrever uma linha de código.</p>
-            </article>
-            <article className="proc" data-reveal>
-              <div className="step">02 — Arquitetura</div>
-              <h4>Planejar</h4>
-              <p>Defino stack, fluxos e estrutura de dados. Escopo transparente e prazos realistas.</p>
-            </article>
-            <article className="proc" data-reveal>
-              <div className="step">03 — Build</div>
-              <h4>Desenvolver</h4>
-              <p>Construção em ciclos curtos, com versões navegáveis e feedback contínuo.</p>
-            </article>
-            <article className="proc" data-reveal>
-              <div className="step">04 — Deploy</div>
-              <h4>Lançar &amp; cuidar</h4>
-              <p>Publicação, monitoramento e suporte para evoluir o produto com segurança.</p>
-            </article>
+            {t.process.steps.map((s) => (
+              <article className="proc" data-reveal key={s.step}>
+                <div className="step">{s.step}</div>
+                <h4>{s.title}</h4>
+                <p>{s.desc}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -355,41 +379,23 @@ function App() {
       <section className="projects" id="projetos">
         <div className="wrap">
           <div className="section-head" data-reveal>
-            <span className="eyebrow">Projetos</span>
-            <h2>Trabalhos selecionados</h2>
-            <p>Uma amostra do tipo de produto que construo. Substitua pelos seus próprios cases quando quiser.</p>
+            <span className="eyebrow">{t.projects.eyebrow}</span>
+            <h2>{t.projects.title}</h2>
+            <p>{t.projects.intro}</p>
           </div>
           <div className="proj-grid">
-            <article className="proj" data-reveal>
-              <div className="proj-shot">
-                <span className="ph">screenshot do projeto · 16:10</span>
-              </div>
-              <div className="proj-body">
-                <div className="kind">Dashboard · SaaS</div>
-                <h4>Painel de operações</h4>
-                <p>Métricas em tempo real e automação de relatórios para uma equipe logística.</p>
-              </div>
-            </article>
-            <article className="proj" data-reveal>
-              <div className="proj-shot">
-                <span className="ph">screenshot do projeto · 16:10</span>
-              </div>
-              <div className="proj-body">
-                <div className="kind">IA · Automação</div>
-                <h4>Assistente de atendimento</h4>
-                <p>Bot que classifica e responde tickets, reduzindo o tempo de resposta pela metade.</p>
-              </div>
-            </article>
-            <article className="proj" data-reveal>
-              <div className="proj-shot">
-                <span className="ph">screenshot do projeto · 16:10</span>
-              </div>
-              <div className="proj-body">
-                <div className="kind">Web App · E-commerce</div>
-                <h4>Loja sob medida</h4>
-                <p>Plataforma de vendas com checkout próprio e integrações de pagamento.</p>
-              </div>
-            </article>
+            {t.projects.items.map((p) => (
+              <article className="proj" data-reveal key={p.title}>
+                <div className="proj-shot">
+                  <span className="ph">{t.projects.placeholder}</span>
+                </div>
+                <div className="proj-body">
+                  <div className="kind">{p.kind}</div>
+                  <h4>{p.title}</h4>
+                  <p>{p.desc}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -400,16 +406,13 @@ function App() {
           <div className="cta-card" data-reveal>
             <div className="glow" aria-hidden="true" />
             <span className="eyebrow" style={{ justifyContent: 'center' }}>
-              Contato
+              {t.cta.eyebrow}
             </span>
-            <h2>Vamos construir juntos</h2>
-            <p>
-              Conte rapidamente o que você quer criar. Eu retorno com um primeiro caminho técnico e os
-              próximos passos.
-            </p>
+            <h2>{t.cta.title}</h2>
+            <p>{t.cta.desc}</p>
             <div className="hero-actions">
               <button className="btn btn-primary" type="button" onClick={openContact}>
-                Entre em contato
+                {t.cta.button}
                 <SendIcon />
               </button>
               <a className="btn btn-ghost" href={`mailto:${CONTACT_EMAIL}`}>
@@ -428,40 +431,37 @@ function App() {
               <a className="brand" href="#home">
                 Buiatti<span className="dot">.com</span>
               </a>
-              <p>
-                Desenvolvimento de software sob medida — sistemas, dashboards e automações. Código
-                limpo, performance real.
-              </p>
+              <p>{t.footer.brand}</p>
             </div>
             <div className="footer-cols">
               <div className="fcol">
-                <h5>Navegar</h5>
-                <a href="#servicos">Serviços</a>
-                <a href="#processo">Processo</a>
-                <a href="#projetos">Projetos</a>
+                <h5>{t.footer.navTitle}</h5>
+                <a href="#servicos">{t.nav.servicos}</a>
+                <a href="#processo">{t.nav.processo}</a>
+                <a href="#projetos">{t.nav.projetos}</a>
               </div>
               <div className="fcol">
-                <h5>Serviços</h5>
-                <a href="#servicos">Sistemas</a>
-                <a href="#servicos">Automação com IA</a>
-                <a href="#servicos">Dashboards</a>
-                <a href="#servicos">Landing Pages</a>
+                <h5>{t.footer.servicesTitle}</h5>
+                <a href="#servicos">{t.footer.links.sistemas}</a>
+                <a href="#servicos">{t.footer.links.ia}</a>
+                <a href="#servicos">{t.footer.links.dashboards}</a>
+                <a href="#servicos">{t.footer.links.landing}</a>
               </div>
               <div className="fcol">
-                <h5>Contato</h5>
+                <h5>{t.footer.contactTitle}</h5>
                 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
                 <a href={`https://instagram.com/${INSTAGRAM_HANDLE}`} target="_blank" rel="noopener noreferrer">
                   @{INSTAGRAM_HANDLE}
                 </a>
                 <button type="button" className="fcol-link" onClick={openContact}>
-                  Enviar mensagem
+                  {t.footer.sendMessage}
                 </button>
               </div>
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 Buiatti.com — Software Development</span>
-            <span>Feito com código limpo no Brasil</span>
+            <span>{t.footer.copyright}</span>
+            <span>{t.footer.madeWith}</span>
           </div>
         </div>
       </footer>
@@ -478,19 +478,16 @@ function App() {
         }}
       >
         <div className="modal">
-          <button className="modal-close" type="button" onClick={() => setIsContactOpen(false)} aria-label="Fechar contato">
+          <button className="modal-close" type="button" onClick={() => setIsContactOpen(false)} aria-label={t.modal.closeAria}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
           <div className="modal-copy">
-            <span className="eyebrow">Contato</span>
-            <h2 id="modalTitle">Conte o que você quer construir</h2>
-            <p>
-              A mensagem chega direto para mim com seu email e telefone, e eu retorno com um primeiro caminho
-              técnico.
-            </p>
+            <span className="eyebrow">{t.modal.eyebrow}</span>
+            <h2 id="modalTitle">{t.modal.title}</h2>
+            <p>{t.modal.desc}</p>
             <div className="modal-contacts">
               <div className="mc">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -513,29 +510,25 @@ function App() {
           </div>
           <form id="contactForm" onSubmit={handleContactSubmit}>
             <label>
-              Nome
-              <input name="name" type="text" placeholder="Seu nome" autoComplete="name" />
+              {t.modal.name}
+              <input name="name" type="text" placeholder={t.modal.namePh} autoComplete="name" />
             </label>
             <label>
-              Email
-              <input name="email" type="email" placeholder="voce@empresa.com" autoComplete="email" required />
+              {t.modal.email}
+              <input name="email" type="email" placeholder={t.modal.emailPh} autoComplete="email" required />
             </label>
             <label>
-              Telefone
-              <input name="phone" type="tel" placeholder="(00) 00000-0000" autoComplete="tel" required />
+              {t.modal.phone}
+              <input name="phone" type="tel" placeholder={t.modal.phonePh} autoComplete="tel" required />
             </label>
             <label>
-              Mensagem
-              <textarea name="message" rows={4} defaultValue={defaultMessage} required />
+              {t.modal.message}
+              <textarea key={lang} name="message" rows={4} defaultValue={t.modal.defaultMessage} required />
             </label>
-            {formStatus === 'sent' ? (
-              <p className="form-feedback">Mensagem enviada. Obrigado pelo contato!</p>
-            ) : null}
-            {formStatus === 'error' ? (
-              <p className="form-feedback error">{formError}</p>
-            ) : null}
+            {formStatus === 'sent' ? <p className="form-feedback">{t.modal.sent}</p> : null}
+            {formStatus === 'error' ? <p className="form-feedback error">{formError}</p> : null}
             <button className="form-submit" type="submit" disabled={formStatus === 'sending'}>
-              {formStatus === 'sending' ? 'Enviando...' : 'Enviar mensagem'}
+              {formStatus === 'sending' ? t.modal.sending : t.modal.submit}
               <SendIcon />
             </button>
           </form>
