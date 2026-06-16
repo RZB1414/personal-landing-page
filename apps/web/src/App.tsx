@@ -289,7 +289,7 @@ function App() {
         <div className="wrap">
           <div className="stat" data-reveal>
             <div className="num">
-              <span data-count="8">0</span>+
+              <span data-count="6">0</span>+
             </div>
             <div className="lbl">{t.stats.years}</div>
           </div>
