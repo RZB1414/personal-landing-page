@@ -17,7 +17,7 @@ import {
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
 const contactEndpoint = apiUrl ? `${apiUrl.replace(/\/$/, '')}/contact` : '/contact';
 
-const CONTACT_EMAIL = 'renanbuiatti14@gmail.com';
+const CONTACT_EMAIL = 'renanbuiatti18@gmail.com';
 const INSTAGRAM_HANDLE = 'renanbuiatti';
 
 type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
