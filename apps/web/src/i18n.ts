@@ -1,9 +1,9 @@
 export type Lang = 'pt' | 'en' | 'it';
 
-export const LANGS: { code: Lang; label: string }[] = [
-  { code: 'pt', label: 'PT' },
-  { code: 'en', label: 'EN' },
-  { code: 'it', label: 'IT' },
+export const LANGS: { code: Lang; label: string; name: string }[] = [
+  { code: 'pt', label: 'PT', name: 'Português' },
+  { code: 'en', label: 'EN', name: 'English' },
+  { code: 'it', label: 'IT', name: 'Italiano' },
 ];
 
 export interface Dict {

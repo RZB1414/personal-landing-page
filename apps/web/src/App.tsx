@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { FormEvent } from 'react';
 
 import heroImg from './assets/landing/hero-img.png';
 import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
@@ -31,9 +31,19 @@ function SendIcon() {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg className="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
 function App() {
   const headerRef = useRef<HTMLElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
   const [lang, setLang] = useState<Lang>(getInitialLang);
+  const [langOpen, setLangOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [formError, setFormError] = useState('');
@@ -124,10 +134,27 @@ function App() {
     };
   }, [isContactOpen]);
 
-  const onLangChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const next = e.target.value as Lang;
+  // Close the language dropdown on outside click / Escape
+  useEffect(() => {
+    if (!langOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLangOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [langOpen]);
+
+  const selectLang = (next: Lang) => {
     setLang(next);
     saveLang(next);
+    setLangOpen(false);
   };
 
   const openContact = () => {
@@ -183,22 +210,41 @@ function App() {
               <SendIcon />
             </button>
           </nav>
-          <div className="lang-select">
-            <svg className="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M2 12h20" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" />
-            </svg>
-            <select aria-label={t.nav.langAria} value={lang} onChange={onLangChange}>
+          <div className={`lang-select${langOpen ? ' open' : ''}`} ref={langRef}>
+            <button
+              type="button"
+              className="lang-trigger"
+              aria-haspopup="listbox"
+              aria-expanded={langOpen}
+              aria-label={t.nav.langAria}
+              onClick={() => setLangOpen((open) => !open)}
+            >
+              <svg className="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" />
+              </svg>
+              <span className="lang-code">{lang.toUpperCase()}</span>
+              <svg className="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div className="lang-menu" role="listbox" aria-label={t.nav.langAria}>
               {LANGS.map((l) => (
-                <option key={l.code} value={l.code}>
-                  {l.label}
-                </option>
+                <button
+                  key={l.code}
+                  type="button"
+                  role="option"
+                  aria-selected={l.code === lang}
+                  className={`lang-option${l.code === lang ? ' active' : ''}`}
+                  onClick={() => selectLang(l.code)}
+                >
+                  <span className="lang-option-code">{l.label}</span>
+                  <span className="lang-option-name">{l.name}</span>
+                  {l.code === lang ? <CheckIcon /> : null}
+                </button>
               ))}
-            </select>
-            <svg className="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            </div>
           </div>
           <button className="nav-toggle" type="button" onClick={openContact} aria-label={t.nav.contactAria}>
             <SendIcon />
