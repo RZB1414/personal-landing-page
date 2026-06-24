@@ -442,8 +442,10 @@ function App() {
             <p>{t.process.intro}</p>
           </div>
           <div className="proc-grid">
-            {t.process.steps.map((s) => (
-              <article className="proc" data-reveal key={s.step}>
+            {t.process.steps.map((s, i) => (
+              // Key by position, not text: step labels differ across languages, so a text key
+              // would remount the card on language switch and drop its imperative reveal class.
+              <article className="proc" data-reveal key={i}>
                 <div className="step">{s.step}</div>
                 <h4>{s.title}</h4>
                 <p>{s.desc}</p>
