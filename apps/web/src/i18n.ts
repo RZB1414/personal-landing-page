@@ -201,7 +201,7 @@ const pt: Dict = {
     links: { sistemas: 'Sistemas', ia: 'Automação com IA', dashboards: 'Dashboards', landing: 'Landing Pages' },
     sendMessage: 'Enviar mensagem',
     copyright: '© 2026 Buiatti.com — Software Development',
-    madeWith: 'Feito com código limpo no Brasil',
+    madeWith: 'Feito com código limpo, café e muito trabalho.',
   },
   modal: {
     eyebrow: 'Contato',
@@ -347,7 +347,7 @@ const en: Dict = {
     links: { sistemas: 'Systems', ia: 'AI Automation', dashboards: 'Dashboards', landing: 'Landing Pages' },
     sendMessage: 'Send a message',
     copyright: '© 2026 Buiatti.com — Software Development',
-    madeWith: 'Made with clean code in Brazil',
+    madeWith: 'Made with clean code, coffee and hard work.',
   },
   modal: {
     eyebrow: 'Contact',
@@ -493,7 +493,7 @@ const it: Dict = {
     links: { sistemas: 'Sistemi', ia: 'Automazione con IA', dashboards: 'Dashboard', landing: 'Landing Page' },
     sendMessage: 'Invia un messaggio',
     copyright: '© 2026 Buiatti.com — Software Development',
-    madeWith: 'Fatto con codice pulito in Brasile',
+    madeWith: 'Fatto con codice pulito, caffè e tanto lavoro.',
   },
   modal: {
     eyebrow: 'Contatto',
