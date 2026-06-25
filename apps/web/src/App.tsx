@@ -22,11 +22,15 @@ import {
 
 type ProjectItem = Dict['projects']['items'][number];
 
-/** Per-project media (cover thumbnail + optional modal gallery), keyed by item id. */
-const PROJECT_MEDIA: Record<string, { cover: string; gallery?: string[] }> = {
+/** Per-project media (cover thumbnail + optional modal gallery + live link), keyed by item id. */
+const PROJECT_MEDIA: Record<string, { cover: string; gallery?: string[]; link?: string }> = {
   playerson: { cover: playersonImg },
   tarso: { cover: tarsoImg },
-  'playerson-app': { cover: playersonProfileImg, gallery: [playersonProfileImg] },
+  'playerson-app': {
+    cover: playersonProfileImg,
+    gallery: [playersonProfileImg],
+    link: 'https://playerson.com.br/p/renan-buiatti-1990-opposite',
+  },
   volleyplus: { cover: volleyplusServeImg, gallery: [volleyplusServeImg, volleyplusPrefsImg] },
 };
 
@@ -683,6 +687,21 @@ function App() {
                 <span className="eyebrow">{project.kind}</span>
                 <h2 id="projModalTitle">{project.title}</h2>
                 <p>{project.modalDesc ?? project.desc}</p>
+                {PROJECT_MEDIA[project.id]?.link ? (
+                  <a
+                    className="proj-modal-link"
+                    href={PROJECT_MEDIA[project.id]?.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="dot-live" aria-hidden="true" />
+                    {t.projects.liveExample}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                  </a>
+                ) : null}
               </div>
               <div className="proj-modal-gallery">
                 {(PROJECT_MEDIA[project.id]?.gallery ?? []).map((src, i) => (

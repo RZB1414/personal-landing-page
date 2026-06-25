@@ -40,6 +40,7 @@ export interface Dict {
     title: string;
     intro: string;
     visit: string;
+    liveExample: string;
     items: { id: string; kind: string; title: string; desc: string; url?: string; modalDesc?: string }[];
   };
   cta: { eyebrow: string; title: string; desc: string; button: string };
@@ -152,6 +153,7 @@ const pt: Dict = {
     title: 'Trabalhos selecionados',
     intro: 'Alguns dos produtos que coloquei no ar — do web app à vitrine de portfólio. Clique para visitar.',
     visit: 'Ver projeto',
+    liveExample: 'Ver exemplo ao vivo',
     items: [
       {
         id: 'playerson',
@@ -297,6 +299,7 @@ const en: Dict = {
     title: 'Selected work',
     intro: "A few of the products I've shipped — from web app to portfolio showcase. Click to visit.",
     visit: 'View project',
+    liveExample: 'View live example',
     items: [
       {
         id: 'playerson',
@@ -442,6 +445,7 @@ const it: Dict = {
     title: 'Lavori selezionati',
     intro: 'Alcuni dei prodotti che ho pubblicato — dalla web app alla vetrina di portfolio. Clicca per visitare.',
     visit: 'Vedi progetto',
+    liveExample: 'Vedi un esempio dal vivo',
     items: [
       {
         id: 'playerson',
