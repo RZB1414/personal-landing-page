@@ -8,6 +8,11 @@ import tarsoImg from './assets/projects/tarso-art.jpg';
 import playersonProfileImg from './assets/projects/playerson-profile.jpg';
 import volleyplusServeImg from './assets/projects/volleyplus-serve.png';
 import volleyplusPrefsImg from './assets/projects/volleyplus-prefs.png';
+import playersonAnalytics1 from './assets/projects/playerson-analytics-1.webp';
+import playersonAnalytics2 from './assets/projects/playerson-analytics-2.webp';
+import playersonAnalytics3 from './assets/projects/playerson-analytics-3.webp';
+import playersonAnalytics4 from './assets/projects/playerson-analytics-4.webp';
+import playersonAnalytics5 from './assets/projects/playerson-analytics-5.webp';
 import {
   LANGS,
   countryToLang,
@@ -22,16 +27,27 @@ import {
 
 type ProjectItem = Dict['projects']['items'][number];
 
+/** A modal-gallery entry is either an image or a section heading. */
+type GalleryBlock = { src: string } | { heading: string };
+
 /** Per-project media (cover thumbnail + optional modal gallery + live link), keyed by item id. */
-const PROJECT_MEDIA: Record<string, { cover: string; gallery?: string[]; link?: string }> = {
+const PROJECT_MEDIA: Record<string, { cover: string; gallery?: GalleryBlock[]; link?: string }> = {
   playerson: { cover: playersonImg },
   tarso: { cover: tarsoImg },
   'playerson-app': {
     cover: playersonProfileImg,
-    gallery: [playersonProfileImg],
     link: 'https://playerson.com.br/p/renan-buiatti-1990-opposite',
+    gallery: [
+      { src: playersonProfileImg },
+      { heading: 'Analytics' },
+      { src: playersonAnalytics1 },
+      { src: playersonAnalytics2 },
+      { src: playersonAnalytics3 },
+      { src: playersonAnalytics4 },
+      { src: playersonAnalytics5 },
+    ],
   },
-  volleyplus: { cover: volleyplusServeImg, gallery: [volleyplusServeImg, volleyplusPrefsImg] },
+  volleyplus: { cover: volleyplusServeImg, gallery: [{ src: volleyplusServeImg }, { src: volleyplusPrefsImg }] },
 };
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
@@ -704,9 +720,15 @@ function App() {
                 ) : null}
               </div>
               <div className="proj-modal-gallery">
-                {(PROJECT_MEDIA[project.id]?.gallery ?? []).map((src, i) => (
-                  <img key={i} src={src} alt={`${project.title} — ${i + 1}`} loading="lazy" />
-                ))}
+                {(PROJECT_MEDIA[project.id]?.gallery ?? []).map((block, i) =>
+                  'heading' in block ? (
+                    <h3 className="proj-modal-section" key={i}>
+                      {block.heading}
+                    </h3>
+                  ) : (
+                    <img key={i} src={block.src} alt={`${project.title} — ${i + 1}`} loading="lazy" />
+                  ),
+                )}
               </div>
             </>
           ) : null}
