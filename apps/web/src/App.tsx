@@ -7,7 +7,7 @@ import playersonImg from './assets/projects/playerson.jpg';
 import tarsoImg from './assets/projects/tarso-art.jpg';
 import playersonProfileImg from './assets/projects/playerson-profile.jpg';
 import volleyplusServeImg from './assets/projects/volleyplus-serve.png';
-import volleyplusPrefsImg from './assets/projects/volleyplus-prefs.png';
+import volleyplusAttackImg from './assets/projects/volleyplus-attack-zones.webp';
 import playersonAnalytics1 from './assets/projects/playerson-analytics-1.webp';
 import playersonAnalytics2 from './assets/projects/playerson-analytics-2.webp';
 import playersonAnalytics3 from './assets/projects/playerson-analytics-3.webp';
@@ -47,7 +47,7 @@ const PROJECT_MEDIA: Record<string, { cover: string; gallery?: GalleryBlock[]; l
       { src: playersonAnalytics5 },
     ],
   },
-  volleyplus: { cover: volleyplusServeImg, gallery: [{ src: volleyplusServeImg }, { src: volleyplusPrefsImg }] },
+  volleyplus: { cover: volleyplusServeImg, gallery: [{ src: volleyplusServeImg }, { src: volleyplusAttackImg }] },
 };
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
