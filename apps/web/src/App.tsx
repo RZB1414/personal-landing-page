@@ -238,6 +238,12 @@ function App() {
       if (!response.ok) throw new Error(t.modal.errorDefault);
       setFormStatus('sent');
       form.reset();
+      setIsContactOpen(false);
+      // Show the centered "sent" notice for 2s, then return to the top of the site.
+      window.setTimeout(() => {
+        setFormStatus('idle');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 2000);
     } catch (error) {
       setFormStatus('error');
       setFormError(error instanceof Error ? error.message : t.modal.errorDefault);
@@ -670,7 +676,6 @@ function App() {
               {t.modal.message}
               <textarea key={lang} name="message" rows={4} defaultValue={t.modal.defaultMessage} required />
             </label>
-            {formStatus === 'sent' ? <p className="form-feedback">{t.modal.sent}</p> : null}
             {formStatus === 'error' ? <p className="form-feedback error">{formError}</p> : null}
             <button className="form-submit" type="submit" disabled={formStatus === 'sending'}>
               {formStatus === 'sending' ? t.modal.sending : t.modal.submit}
@@ -734,6 +739,20 @@ function App() {
           ) : null}
         </div>
       </div>
+
+      {/* ============ SENT NOTICE ============ */}
+      {formStatus === 'sent' ? (
+        <div className="sent-toast" role="status" aria-live="polite">
+          <div className="sent-toast-card">
+            <span className="sent-toast-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <p>{t.modal.sent}</p>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }
