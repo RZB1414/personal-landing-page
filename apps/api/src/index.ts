@@ -77,9 +77,9 @@ app.post("/contact", async (c) => {
 
   if (!telegramResponse.ok) {
     const detail = await telegramResponse.text().catch(() => "");
-    // Surfaced for debugging — Telegram error bodies (e.g. "chat not found") don't leak the token.
+    // Logged server-side (Cloudflare observability) for debugging; not leaked to the client.
     console.error("Telegram delivery failed:", telegramResponse.status, detail);
-    return c.json({ ok: false, error: "Telegram delivery failed.", status: telegramResponse.status, detail }, 502);
+    return c.json({ ok: false, error: "Telegram delivery failed." }, 502);
   }
 
   return c.json({ ok: true });
