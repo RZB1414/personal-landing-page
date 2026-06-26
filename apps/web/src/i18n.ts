@@ -206,7 +206,7 @@ const pt: Dict = {
   modal: {
     eyebrow: 'Contato',
     title: 'Conte o que você quer construir',
-    desc: 'Você recebe uma resposta com um primeiro caminho técnico e os próximos passos.',
+    desc: 'Você receberá uma resposta com um primeiro caminho técnico e os próximos passos.',
     closeAria: 'Fechar contato',
     name: 'Nome',
     email: 'Email',
