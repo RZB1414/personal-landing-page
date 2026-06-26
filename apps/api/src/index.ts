@@ -23,8 +23,8 @@ app.get("/health", (c) => {
 });
 
 app.post("/contact", async (c) => {
-  const botToken = c.env.TELEGRAM_BOT_TOKEN;
-  const chatId = c.env.TELEGRAM_CHAT_ID;
+  const botToken = c.env.TELEGRAM_BOT_TOKEN?.trim();
+  const chatId = c.env.TELEGRAM_CHAT_ID?.trim();
 
   if (!botToken || !chatId) {
     return c.json({ ok: false, error: "Telegram is not configured." }, 500);
@@ -49,7 +49,7 @@ app.post("/contact", async (c) => {
   }
 
   const telegramMessage = [
-    "Novo contato - Red Coast Labs",
+    "Novo contato - Buiatti.com",
     "",
     `Nome: ${name || "Nao informado"}`,
     `Email: ${email}`,
@@ -59,18 +59,27 @@ app.post("/contact", async (c) => {
     message,
   ].join("\n");
 
-  const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: telegramMessage,
-      disable_web_page_preview: true,
-    }),
-  });
+  let telegramResponse: Response;
+  try {
+    telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: telegramMessage,
+        disable_web_page_preview: true,
+      }),
+    });
+  } catch (err) {
+    console.error("Telegram request error:", err);
+    return c.json({ ok: false, error: "Telegram delivery failed." }, 502);
+  }
 
   if (!telegramResponse.ok) {
-    return c.json({ ok: false, error: "Telegram delivery failed." }, 502);
+    const detail = await telegramResponse.text().catch(() => "");
+    // Surfaced for debugging — Telegram error bodies (e.g. "chat not found") don't leak the token.
+    console.error("Telegram delivery failed:", telegramResponse.status, detail);
+    return c.json({ ok: false, error: "Telegram delivery failed.", status: telegramResponse.status, detail }, 502);
   }
 
   return c.json({ ok: true });
