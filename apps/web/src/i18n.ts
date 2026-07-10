@@ -90,14 +90,14 @@ const pt: Dict = {
     copy2: 'Reduza o trabalho manual e opere com mais velocidade.',
     primary: 'Iniciar projeto',
     ghost: 'Ver serviços',
-    scroll: 'Role',
+    scroll: 'Scroll',
   },
   stats: { years: 'Anos de código', custom: 'Sob medida', direct: 'Atendimento direto' },
   services: {
     eyebrow: 'Serviços',
     title: 'Engenharia de software sob medida',
     intro:
-      'Da ideia ao deploy. Construo produtos digitais com código limpo, performance real e foco em resolver o problema certo.',
+      'Da ideia ao deploy. Construímos produtos digitais com código limpo, performance real e foco em resolver o problema certo.',
     feature: {
       title: 'Sistemas & Plataformas',
       desc: 'Aplicações web completas, do back-end à interface. Arquitetura escalável, integrações e painéis administrativos feitos para crescer com o seu negócio.',
@@ -118,7 +118,7 @@ const pt: Dict = {
     },
     api: {
       title: 'Integrações & APIs',
-      desc: 'Conecto sistemas, pagamentos e serviços externos sem fricção.',
+      desc: 'Conectamos sistemas, pagamentos e serviços externos sem fricção.',
     },
   },
   process: {
@@ -129,12 +129,12 @@ const pt: Dict = {
       {
         step: '01 — Discovery',
         title: 'Entender',
-        desc: 'Mergulho no seu problema, no público e nos objetivos antes de escrever uma linha de código.',
+        desc: 'Mergulhamos no seu problema, no público e nos objetivos antes de escrever uma linha de código.',
       },
       {
         step: '02 — Arquitetura',
         title: 'Planejar',
-        desc: 'Defino stack, fluxos e estrutura de dados. Escopo transparente e prazos realistas.',
+        desc: 'Definimos stack, fluxos e estrutura de dados. Escopo transparente e prazos realistas.',
       },
       {
         step: '03 — Build',
@@ -151,7 +151,7 @@ const pt: Dict = {
   projects: {
     eyebrow: 'Projetos',
     title: 'Trabalhos selecionados',
-    intro: 'Alguns dos produtos que coloquei no ar — do web app à vitrine de portfólio. Clique para visitar.',
+    intro: 'Alguns dos produtos que já estão no ar — do web app à vitrine de portfólio. Clique para visitar.',
     visit: 'Ver projeto',
     liveExample: 'Ver exemplo ao vivo',
     items: [
@@ -173,7 +173,7 @@ const pt: Dict = {
         id: 'playerson-app',
         kind: 'Plataforma · SaaS',
         title: 'PlayersOn',
-        desc: 'Perfis públicos de atletas com vídeos, QR code compartilhável e assinaturas Pro.',
+        desc: 'Perfis públicos de atletas com vídeos de melhores momentos e todas as informações que um gerente de equipe precisa para contratar um atleta, tudo em um só lugar.',
         modalDesc:
           'PlayersOn, uma plataforma multilíngue (PT/IT/EN) de perfis públicos para atletas: cada jogador tem uma página única baseada em slug, reunindo dados, vídeos e informações de contato em um link compartilhável com QR code, com assinaturas Pro integradas ao Stripe e analytics nativo de visualizações e engajamento.',
       },
@@ -190,7 +190,7 @@ const pt: Dict = {
   cta: {
     eyebrow: 'Contato',
     title: 'Vamos construir juntos',
-    desc: 'Conte rapidamente o que você quer criar. Eu retorno com um primeiro caminho técnico e os próximos passos.',
+    desc: 'Conte rapidamente o que você quer criar. Retornamos com um primeiro caminho técnico e os próximos passos.',
     button: 'Entre em contato',
   },
   footer: {
@@ -200,7 +200,7 @@ const pt: Dict = {
     contactTitle: 'Contato',
     links: { sistemas: 'Sistemas', ia: 'Automação com IA', dashboards: 'Dashboards', landing: 'Landing Pages' },
     sendMessage: 'Enviar mensagem',
-    copyright: '© 2026 Buiatti.com — Software Development',
+    copyright: '© 2026 Buiatti — Software Development',
     madeWith: 'Feito com código limpo, café e muito trabalho.',
   },
   modal: {
@@ -215,7 +215,7 @@ const pt: Dict = {
     namePh: 'Seu nome',
     emailPh: 'voce@empresa.com',
     phonePh: '(00) 00000-0000',
-    defaultMessage: 'Olá, Buiatti.com. Quero conversar sobre um projeto de software, dashboard ou automação com IA.',
+    defaultMessage: 'Olá, Buiatti. Quero conversar sobre um projeto de software, dashboard ou automação com IA.',
     sent: 'Mensagem enviada. Obrigado pelo contato!',
     errorDefault: 'Não foi possível enviar a mensagem agora.',
     submit: 'Enviar mensagem',
@@ -246,7 +246,7 @@ const en: Dict = {
     eyebrow: 'Services',
     title: 'Custom software engineering',
     intro:
-      'From idea to deploy. I build digital products with clean code, real performance and a focus on solving the right problem.',
+      'From idea to deploy. We build digital products with clean code, real performance and a focus on solving the right problem.',
     feature: {
       title: 'Systems & Platforms',
       desc: 'Complete web applications, from back-end to interface. Scalable architecture, integrations and admin panels built to grow with your business.',
@@ -265,7 +265,7 @@ const en: Dict = {
       title: 'Landing Pages',
       desc: 'High-conversion pages with a strong identity and fast loading.',
     },
-    api: { title: 'Integrations & APIs', desc: 'I connect systems, payments and external services without friction.' },
+    api: { title: 'Integrations & APIs', desc: 'Connecting systems, payments and external services without friction.' },
   },
   process: {
     eyebrow: 'Process',
@@ -275,12 +275,12 @@ const en: Dict = {
       {
         step: '01 — Discovery',
         title: 'Understand',
-        desc: 'I dive into your problem, audience and goals before writing a single line of code.',
+        desc: 'We dive into your problem, audience and goals before writing a single line of code.',
       },
       {
         step: '02 — Architecture',
         title: 'Plan',
-        desc: 'I define the stack, flows and data structure. Transparent scope and realistic timelines.',
+        desc: 'We define the stack, flows and data structure. Transparent scope and realistic timelines.',
       },
       {
         step: '03 — Build',
@@ -297,7 +297,7 @@ const en: Dict = {
   projects: {
     eyebrow: 'Projects',
     title: 'Selected work',
-    intro: "A few of the products I've shipped — from web app to portfolio showcase. Click to visit.",
+    intro: 'A few products already live — from web app to portfolio showcase. Click to visit.',
     visit: 'View project',
     liveExample: 'View live example',
     items: [
@@ -319,7 +319,7 @@ const en: Dict = {
         id: 'playerson-app',
         kind: 'Platform · SaaS',
         title: 'PlayersOn',
-        desc: 'Public athlete profiles with videos, a shareable QR code and Pro subscriptions.',
+        desc: 'Public athlete profiles with highlight videos and all the information a team manager needs to sign an athlete, all in one place.',
         modalDesc:
           'PlayersOn, a multilingual (PT/IT/EN) public-profile platform for athletes: each player has a unique slug-based page combining data, videos, and contact information in a shareable link with QR code, with Stripe-integrated Pro subscriptions and built-in analytics for views and engagement.',
       },
@@ -336,7 +336,7 @@ const en: Dict = {
   cta: {
     eyebrow: 'Contact',
     title: "Let's build together",
-    desc: "Tell me briefly what you want to create. I'll get back with a first technical direction and the next steps.",
+    desc: "Tell us briefly what you want to create. We'll get back with a first technical direction and the next steps.",
     button: 'Get in touch',
   },
   footer: {
@@ -346,7 +346,7 @@ const en: Dict = {
     contactTitle: 'Contact',
     links: { sistemas: 'Systems', ia: 'AI Automation', dashboards: 'Dashboards', landing: 'Landing Pages' },
     sendMessage: 'Send a message',
-    copyright: '© 2026 Buiatti.com — Software Development',
+    copyright: '© 2026 Buiatti — Software Development',
     madeWith: 'Made with clean code, coffee and hard work.',
   },
   modal: {
@@ -361,7 +361,7 @@ const en: Dict = {
     namePh: 'Your name',
     emailPh: 'you@company.com',
     phonePh: '+1 (000) 000-0000',
-    defaultMessage: "Hi, Buiatti.com. I'd like to talk about a software, dashboard or automation project.",
+    defaultMessage: "Hi, Buiatti. I'd like to talk about a software, dashboard or automation project.",
     sent: 'Message sent. Thanks for reaching out!',
     errorDefault: "We couldn't send your message right now.",
     submit: 'Send message',
@@ -385,14 +385,14 @@ const it: Dict = {
     copy2: 'Riduci il lavoro manuale e opera con più velocità.',
     primary: 'Avvia un progetto',
     ghost: 'Vedi i servizi',
-    scroll: 'Scorri',
+    scroll: 'Scroll',
   },
   stats: { years: 'Anni di codice', custom: 'Su misura', direct: 'Assistenza diretta' },
   services: {
     eyebrow: 'Servizi',
     title: 'Ingegneria del software su misura',
     intro:
-      "Dall'idea al deploy. Creo prodotti digitali con codice pulito, performance reali e focus sul problema giusto.",
+      "Dall'idea al deploy. Costruiamo prodotti digitali con codice pulito, performance reali e focus sul problema giusto.",
     feature: {
       title: 'Sistemi & Piattaforme',
       desc: "Applicazioni web complete, dal back-end all'interfaccia. Architettura scalabile, integrazioni e pannelli di amministrazione pensati per crescere con la tua attività.",
@@ -411,7 +411,7 @@ const it: Dict = {
       title: 'Landing Page',
       desc: "Pagine ad alta conversione con un'identità forte e caricamento rapido.",
     },
-    api: { title: 'Integrazioni & API', desc: 'Collego sistemi, pagamenti e servizi esterni senza attriti.' },
+    api: { title: 'Integrazioni & API', desc: 'Colleghiamo sistemi, pagamenti e servizi esterni senza attriti.' },
   },
   process: {
     eyebrow: 'Processo',
@@ -421,12 +421,12 @@ const it: Dict = {
       {
         step: '01 — Discovery',
         title: 'Capire',
-        desc: 'Mi immergo nel tuo problema, nel pubblico e negli obiettivi prima di scrivere una riga di codice.',
+        desc: 'Ci immergiamo nel tuo problema, nel pubblico e negli obiettivi prima di scrivere una riga di codice.',
       },
       {
         step: '02 — Architettura',
         title: 'Pianificare',
-        desc: 'Definisco stack, flussi e struttura dei dati. Scope trasparente e tempi realistici.',
+        desc: 'Definiamo stack, flussi e struttura dei dati. Scope trasparente e tempi realistici.',
       },
       {
         step: '03 — Build',
@@ -443,7 +443,7 @@ const it: Dict = {
   projects: {
     eyebrow: 'Progetti',
     title: 'Lavori selezionati',
-    intro: 'Alcuni dei prodotti che ho pubblicato — dalla web app alla vetrina di portfolio. Clicca per visitare.',
+    intro: 'Alcuni dei prodotti già online — dalla web app alla vetrina di portfolio. Clicca per visitare.',
     visit: 'Vedi progetto',
     liveExample: 'Vedi un esempio dal vivo',
     items: [
@@ -465,7 +465,7 @@ const it: Dict = {
         id: 'playerson-app',
         kind: 'Piattaforma · SaaS',
         title: 'PlayersOn',
-        desc: 'Profili pubblici di atleti con video, QR code condivisibile e abbonamenti Pro.',
+        desc: 'Profili pubblici di atleti con video dei momenti migliori e tutte le informazioni che un team manager deve avere per ingaggiare un atleta, tutto in un unico posto.',
         modalDesc:
           'PlayersOn, una piattaforma multilingue (PT/IT/EN) di profili pubblici per atleti: ogni giocatore ha una pagina unica basata su slug, che combina dati, video e informazioni di contatto in un link condivisibile con QR code, con abbonamenti Pro integrati con Stripe e analytics integrato per visualizzazioni ed engagement.',
       },
@@ -482,7 +482,7 @@ const it: Dict = {
   cta: {
     eyebrow: 'Contatto',
     title: 'Costruiamo insieme',
-    desc: 'Raccontami in breve cosa vuoi creare. Ti rispondo con una prima direzione tecnica e i prossimi passi.',
+    desc: 'Raccontaci in breve cosa vuoi creare. Ti rispondiamo con una prima direzione tecnica e i prossimi passi.',
     button: 'Mettiti in contatto',
   },
   footer: {
@@ -492,7 +492,7 @@ const it: Dict = {
     contactTitle: 'Contatto',
     links: { sistemas: 'Sistemi', ia: 'Automazione con IA', dashboards: 'Dashboard', landing: 'Landing Page' },
     sendMessage: 'Invia un messaggio',
-    copyright: '© 2026 Buiatti.com — Software Development',
+    copyright: '© 2026 Buiatti — Software Development',
     madeWith: 'Fatto con codice pulito, caffè e tanto lavoro.',
   },
   modal: {
@@ -507,7 +507,7 @@ const it: Dict = {
     namePh: 'Il tuo nome',
     emailPh: 'tu@azienda.com',
     phonePh: '+39 000 000 0000',
-    defaultMessage: 'Ciao, Buiatti.com. Vorrei parlare di un progetto di software, dashboard o automazione.',
+    defaultMessage: 'Ciao, Buiatti. Vorrei parlare di un progetto di software, dashboard o automazione.',
     sent: 'Messaggio inviato. Grazie per il contatto!',
     errorDefault: 'Non è stato possibile inviare il messaggio ora.',
     submit: 'Invia messaggio',

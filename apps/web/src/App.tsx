@@ -255,8 +255,8 @@ function App() {
       <div className="stars" aria-hidden="true" />
 
       <header className="site-header" id="siteHeader" ref={headerRef}>
-        <a className="brand" href="#home" aria-label="Buiatti.com">
-          Buiatti<span className="dot">.com</span>
+        <a className="brand" href="#home" aria-label="Buiatti">
+          Buiatti
         </a>
         <div className="header-actions">
           <nav className="site-nav" aria-label={t.nav.navAria}>
@@ -318,7 +318,7 @@ function App() {
         </div>
         <div className="hero-inner">
           <h1 className="hero-title">
-            Buiatti<span className="com">.com</span>
+            Buiatti
           </h1>
           <p className="hero-sub">{t.hero.sub}</p>
           <p className="hero-copy">
@@ -580,7 +580,7 @@ function App() {
           <div className="footer-top">
             <div className="footer-brand">
               <a className="brand" href="#home">
-                Buiatti<span className="dot">.com</span>
+                Buiatti
               </a>
               <p>{t.footer.brand}</p>
             </div>
