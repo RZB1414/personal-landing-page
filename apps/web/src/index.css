@@ -355,7 +355,8 @@ section { position: relative; z-index: 1; }
   font-size: clamp(1.4rem, 4vw, 2.1rem);
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: var(--ember);
+  color: #ffc0a8;
+  text-shadow: 0 2px 3px rgba(2, 8, 21, 0.95), 0 0 16px rgba(2, 8, 21, 0.9);
 }
 .hero-sub::before, .hero-sub::after {
   content: '';
@@ -369,8 +370,11 @@ section { position: relative; z-index: 1; }
   margin: 30px auto 0;
   max-width: 560px;
   font-size: clamp(1.05rem, 1.8vw, 1.24rem);
+  font-weight: 500;
   line-height: 1.6;
-  color: var(--cream-soft);
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  text-shadow: 0 2px 4px rgba(2, 8, 21, 0.95), 0 0 18px rgba(2, 8, 21, 0.85);
 }
 
 .hero-actions {
