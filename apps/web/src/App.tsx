@@ -326,12 +326,12 @@ function App() {
             <br />
             {t.hero.copy2}
           </p>
-          <div className="hero-actions">
+          <div className="hero-actions hero-cta-actions">
             <button className="btn btn-primary" type="button" onClick={openContact}>
               {t.hero.primary}
               <SendIcon />
             </button>
-            <a className="btn btn-ghost" href="#servicos">
+            <a className="hero-services-link" href="#servicos">
               {t.hero.ghost}
             </a>
           </div>
