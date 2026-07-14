@@ -3,16 +3,17 @@ import type { FormEvent } from 'react';
 
 import heroImg from './assets/landing/hero-img.png';
 import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
-import playersonImg from './assets/projects/playerson.jpg';
+import playersonImg from './assets/projects/playerson.webp';
 import tarsoImg from './assets/projects/tarso-art.jpg';
-import playersonProfileImg from './assets/projects/playerson-profile.jpg';
-import volleyplusServeImg from './assets/projects/volleyplus-serve.png';
-import volleyplusAttackImg from './assets/projects/volleyplus-attack-zones.webp';
+import playersonProfileImg from './assets/projects/playerson-profile.webp';
+import volleyplus1Img from './assets/projects/volleyplus1.webp';
+import volleyplus2Img from './assets/projects/volleyplus2.webp';
 import playersonAnalytics1 from './assets/projects/playerson-analytics-1.webp';
 import playersonAnalytics2 from './assets/projects/playerson-analytics-2.webp';
 import playersonAnalytics3 from './assets/projects/playerson-analytics-3.webp';
 import playersonAnalytics4 from './assets/projects/playerson-analytics-4.webp';
 import playersonAnalytics5 from './assets/projects/playerson-analytics-5.webp';
+import playersonAnalytics6 from './assets/projects/playerson-analytics-6.webp';
 import {
   LANGS,
   countryToLang,
@@ -45,9 +46,10 @@ const PROJECT_MEDIA: Record<string, { cover: string; gallery?: GalleryBlock[]; l
       { src: playersonAnalytics3 },
       { src: playersonAnalytics4 },
       { src: playersonAnalytics5 },
+      { src: playersonAnalytics6 },
     ],
   },
-  volleyplus: { cover: volleyplusServeImg, gallery: [{ src: volleyplusServeImg }, { src: volleyplusAttackImg }] },
+  volleyplus: { cover: volleyplus1Img, gallery: [{ src: volleyplus1Img }, { src: volleyplus2Img }] },
 };
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'https://personal-landing-page.renanbuiatti14.workers.dev';
