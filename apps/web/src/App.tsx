@@ -2,10 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 
 import heroImg from './assets/landing/hero-img.png';
-import circuitBg from './assets/landing/red_coast_circuit_background_exact.svg';
+import heroBackgroundMobile from './assets/landing/hero-background-mobile.png';
+import heroBackgroundDesktop from './assets/landing/hero-background-desktop.png';
 import playersonImg from './assets/projects/playerson.webp';
 import tarsoImg from './assets/projects/tarso-art.jpg';
 import playersonProfileImg from './assets/projects/playerson-profile.webp';
+import playersZoneFeedImg from './assets/projects/players-zone-feed.png';
+import playersZoneTeamsImg from './assets/projects/players-zone-teams.png';
+import playersZoneAgenciesImg from './assets/projects/players-zone-agencies.png';
 import volleyplus1Img from './assets/projects/volleyplus1.webp';
 import volleyplus2Img from './assets/projects/volleyplus2.webp';
 import playersonAnalytics1 from './assets/projects/playerson-analytics-1.webp';
@@ -29,7 +33,11 @@ import {
 type ProjectItem = Dict['projects']['items'][number];
 
 /** A modal-gallery entry is either an image or a section heading. */
-type GalleryBlock = { src: string } | { heading: string };
+type GalleryHeading = keyof Dict['projects']['gallery'];
+type GalleryBlock =
+  | { src: string }
+  | { heading: GalleryHeading }
+  | { href: string; label: GalleryHeading };
 
 /** Per-project media (cover thumbnail + optional modal gallery + live link), keyed by item id. */
 const PROJECT_MEDIA: Record<string, { cover: string; gallery?: GalleryBlock[]; link?: string }> = {
@@ -37,10 +45,17 @@ const PROJECT_MEDIA: Record<string, { cover: string; gallery?: GalleryBlock[]; l
   tarso: { cover: tarsoImg },
   'playerson-app': {
     cover: playersonProfileImg,
-    link: 'https://playerson.com.br/p/renan-buiatti-1990-opposite',
+    link: 'https://playerson.com.br/publicprofile/home',
     gallery: [
+      { src: playersZoneFeedImg },
+      { src: playersZoneTeamsImg },
+      { src: playersZoneAgenciesImg },
+      {
+        href: 'https://playerson.com.br/p/renan-buiatti-1990-opposite',
+        label: 'publicProfile',
+      },
       { src: playersonProfileImg },
-      { heading: 'Analytics' },
+      { heading: 'analytics' },
       { src: playersonAnalytics1 },
       { src: playersonAnalytics2 },
       { src: playersonAnalytics3 },
@@ -73,6 +88,39 @@ function CheckIcon() {
   return (
     <svg className="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function RocketIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14.5 5.5c2.3-2.3 4.8-2.5 5.8-2.5 0 1-.2 3.5-2.5 5.8l-5.6 5.6-3.7-3.7 6-5.2Z" />
+      <path d="m13.7 6.3 4 4" />
+      <path d="M8.5 10.7 5.4 11.8 3 14.2l4.4.5" />
+      <path d="m12.2 14.5-.5 4.5-2.4 2.3-1.1-4" />
+      <circle cx="16.3" cy="7" r="1.4" />
+      <path d="M5.8 17.7c-.9.3-1.6 1-2 2 .9-.2 1.7-.2 2.4.1.3-.7.2-1.4-.4-2.1Z" />
+    </svg>
+  );
+}
+
+function DecisionsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 3v17h17" />
+      <path d="m7 15 3.6-4 3 2.4L19 7" />
+      <path d="M16 7h3v3" />
+      <path d="M8 18v-2M12 18v-3M16 18v-4M20 18v-6" />
+    </svg>
+  );
+}
+
+function AutomationIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z" />
     </svg>
   );
 }
@@ -117,7 +165,7 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Reveal on scroll + count-up numbers
+  // Reveal sections as they enter the viewport
   useEffect(() => {
     const reveal = (el: Element) => el.classList.add('in');
     const io = new IntersectionObserver(
@@ -137,33 +185,7 @@ function App() {
       if (el.getBoundingClientRect().top < window.innerHeight) reveal(el);
       else io.observe(el);
     });
-
-    const cio = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const el = e.target as HTMLElement;
-          const target = parseInt(el.dataset.count ?? '0', 10);
-          const dur = 1200;
-          const start = performance.now();
-          const tick = (now: number) => {
-            const p = Math.min((now - start) / dur, 1);
-            const ease = 1 - Math.pow(1 - p, 3);
-            el.textContent = String(Math.round(target * ease));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-          cio.unobserve(el);
-        });
-      },
-      { threshold: 0.6 },
-    );
-    document.querySelectorAll('[data-count]').forEach((c) => cio.observe(c));
-
-    return () => {
-      io.disconnect();
-      cio.disconnect();
-    };
+    return () => io.disconnect();
   }, []);
 
   // Lock body scroll + Escape-to-close while any modal is open
@@ -315,8 +337,10 @@ function App() {
       {/* ============ HERO ============ */}
       <section className="hero" id="home">
         <div className="hero-bg" aria-hidden="true">
-          <img src={heroImg} alt="" />
-          <div className="circuit" style={{ backgroundImage: `url(${circuitBg})` }} />
+          <picture>
+            <source media="(max-width: 720px)" srcSet={heroBackgroundMobile} />
+            <img src={heroBackgroundDesktop} alt="" />
+          </picture>
         </div>
         <div className="hero-inner">
           <h1 className="hero-title">
@@ -324,44 +348,31 @@ function App() {
           </h1>
           <p className="hero-sub">{t.hero.sub}</p>
           <p className="hero-copy">
-            {t.hero.copy1}
-            <br />
-            {t.hero.copy2}
+            {t.hero.copy1} {t.hero.copy2}
           </p>
           <div className="hero-actions hero-cta-actions">
             <button className="btn btn-primary" type="button" onClick={openContact}>
-              {t.hero.primary}
               <SendIcon />
+              <span className="hero-button-divider" aria-hidden="true" />
+              <span>{t.hero.primary}</span>
             </button>
             <a className="hero-services-link" href="#servicos">
               {t.hero.ghost}
             </a>
           </div>
         </div>
-        <div className="hero-scroll" aria-hidden="true">
-          <span>{t.hero.scroll}</span>
-          <span className="line" />
-        </div>
-      </section>
-
-      {/* ============ STATS ============ */}
-      <section className="stats">
-        <div className="wrap">
-          <div className="stat" data-reveal>
-            <div className="num">
-              <span data-count="6">0</span>+
-            </div>
-            <div className="lbl">{t.stats.years}</div>
+        <div className="hero-benefits">
+          <div className="hero-benefit">
+            <span className="hero-benefit-icon"><RocketIcon /></span>
+            <p>{t.stats.years}</p>
           </div>
-          <div className="stat" data-reveal>
-            <div className="num">
-              <span data-count="100">0</span>%
-            </div>
-            <div className="lbl">{t.stats.custom}</div>
+          <div className="hero-benefit">
+            <span className="hero-benefit-icon"><DecisionsIcon /></span>
+            <p>{t.stats.custom}</p>
           </div>
-          <div className="stat" data-reveal>
-            <div className="num">1:1</div>
-            <div className="lbl">{t.stats.direct}</div>
+          <div className="hero-benefit">
+            <span className="hero-benefit-icon"><AutomationIcon /></span>
+            <p>{t.stats.direct}</p>
           </div>
         </div>
       </section>
@@ -710,6 +721,12 @@ function App() {
                 <span className="eyebrow">{project.kind}</span>
                 <h2 id="projModalTitle">{project.title}</h2>
                 <p>{project.modalDesc ?? project.desc}</p>
+                {project.modalHow ? (
+                  <div className="proj-modal-how">
+                    <h3>{project.modalHowTitle}</h3>
+                    <p>{project.modalHow}</p>
+                  </div>
+                ) : null}
                 {PROJECT_MEDIA[project.id]?.link ? (
                   <a
                     className="proj-modal-link"
@@ -730,8 +747,23 @@ function App() {
                 {(PROJECT_MEDIA[project.id]?.gallery ?? []).map((block, i) =>
                   'heading' in block ? (
                     <h3 className="proj-modal-section" key={i}>
-                      {block.heading}
+                      {t.projects.gallery[block.heading]}
                     </h3>
+                  ) : 'href' in block ? (
+                    <a
+                      className="proj-modal-link proj-modal-gallery-link"
+                      href={block.href}
+                      key={i}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="dot-live" aria-hidden="true" />
+                      {t.projects.gallery[block.label]}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M7 17 17 7" />
+                        <path d="M7 7h10v10" />
+                      </svg>
+                    </a>
                   ) : (
                     <img key={i} src={block.src} alt={`${project.title} — ${i + 1}`} loading="lazy" />
                   ),

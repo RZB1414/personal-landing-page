@@ -41,7 +41,20 @@ export interface Dict {
     intro: string;
     visit: string;
     liveExample: string;
-    items: { id: string; kind: string; title: string; desc: string; url?: string; modalDesc?: string }[];
+    gallery: {
+      publicProfile: string;
+      analytics: string;
+    };
+    items: {
+      id: string;
+      kind: string;
+      title: string;
+      desc: string;
+      url?: string;
+      modalDesc?: string;
+      modalHowTitle?: string;
+      modalHow?: string;
+    }[];
   };
   cta: { eyebrow: string; title: string; desc: string; button: string };
   footer: {
@@ -92,9 +105,13 @@ const pt: Dict = {
     ghost: 'Ver serviços',
     scroll: 'Scroll',
   },
-  stats: { years: 'Anos de código', custom: 'Sob medida', direct: 'Atendimento direto' },
+  stats: {
+    years: 'Mais velocidade nos processos',
+    custom: 'Decisões com dados confiáveis',
+    direct: 'Automação que gera resultados',
+  },
   services: {
-    eyebrow: 'Serviços',
+    eyebrow: 'Soluções sob medida',
     title: 'Engenharia de software sob medida',
     intro:
       'Da ideia ao deploy. Construímos produtos digitais com código limpo, performance real e foco em resolver o problema certo.',
@@ -154,6 +171,10 @@ const pt: Dict = {
     intro: 'Alguns dos produtos que já estão no ar — do web app à vitrine de portfólio. Clique para visitar.',
     visit: 'Ver projeto',
     liveExample: 'Ver exemplo ao vivo',
+    gallery: {
+      publicProfile: 'Veja o perfil público — Renan Buiatti',
+      analytics: 'Analytics',
+    },
     items: [
       {
         id: 'playerson',
@@ -172,10 +193,13 @@ const pt: Dict = {
       {
         id: 'playerson-app',
         kind: 'Plataforma · SaaS',
-        title: 'PlayersOn',
-        desc: 'Perfis públicos de atletas com vídeos de melhores momentos e todas as informações que um gerente de equipe precisa para contratar um atleta, tudo em um só lugar.',
+        title: 'Players Zone',
+        desc: 'Rede profissional do vôlei que conecta atletas, equipes e empresários por meio de perfis, vídeos e oportunidades.',
         modalDesc:
-          'PlayersOn, uma plataforma multilíngue (PT/IT/EN) de perfis públicos para atletas: cada jogador tem uma página única baseada em slug, reunindo dados, vídeos e informações de contato em um link compartilhável com QR code, com assinaturas Pro integradas ao Stripe e analytics nativo de visualizações e engajamento.',
+          'Players Zone é uma rede social internacional dedicada ao vôlei. Ela reúne atletas, equipes, empresários, agências e fãs em um hub para descobrir talentos, acompanhar destaques e transformar desempenho esportivo em conexões profissionais.',
+        modalHowTitle: 'Como funciona',
+        modalHow:
+          'Na home pública, o visitante conhece a comunidade e os recursos de cada tipo de conta. Depois do login, encontra busca de atletas, números da rede, vídeos recentes, perfis em alta, equipes, fundamentos e jogos completos. Atletas publicam dados esportivos, histórico, conquistas e vídeos; equipes e empresários pesquisam talentos com filtros e acessam perfis compartilháveis por link ou QR code. O analytics registra visitas e interações para revelar sinais reais de interesse.',
       },
       {
         id: 'volleyplus',
@@ -241,9 +265,13 @@ const en: Dict = {
     ghost: 'See services',
     scroll: 'Scroll',
   },
-  stats: { years: 'Years of code', custom: 'Tailor-made', direct: 'Direct support' },
+  stats: {
+    years: 'Faster processes',
+    custom: 'Decisions backed by reliable data',
+    direct: 'Automation that delivers results',
+  },
   services: {
-    eyebrow: 'Services',
+    eyebrow: 'Tailored solutions',
     title: 'Custom software engineering',
     intro:
       'From idea to deploy. We build digital products with clean code, real performance and a focus on solving the right problem.',
@@ -300,6 +328,10 @@ const en: Dict = {
     intro: 'A few products already live — from web app to portfolio showcase. Click to visit.',
     visit: 'View project',
     liveExample: 'View live example',
+    gallery: {
+      publicProfile: 'View the public profile — Renan Buiatti',
+      analytics: 'Analytics',
+    },
     items: [
       {
         id: 'playerson',
@@ -318,10 +350,13 @@ const en: Dict = {
       {
         id: 'playerson-app',
         kind: 'Platform · SaaS',
-        title: 'PlayersOn',
-        desc: 'Public athlete profiles with highlight videos and all the information a team manager needs to sign an athlete, all in one place.',
+        title: 'Players Zone',
+        desc: 'A professional volleyball network connecting athletes, teams and agents through profiles, videos and opportunities.',
         modalDesc:
-          'PlayersOn, a multilingual (PT/IT/EN) public-profile platform for athletes: each player has a unique slug-based page combining data, videos, and contact information in a shareable link with QR code, with Stripe-integrated Pro subscriptions and built-in analytics for views and engagement.',
+          'Players Zone is an international social network dedicated to volleyball. It brings athletes, teams, agents, agencies and fans together in one hub to discover talent, follow highlights and turn athletic performance into professional connections.',
+        modalHowTitle: 'How it works',
+        modalHow:
+          'The public home introduces the community and the tools available to each account type. After signing in, members can search athletes, follow network metrics, watch recent videos, discover trending profiles, browse teams, explore skills and view full matches. Athletes publish sports data, history, achievements and videos; teams and agents filter talent and open profiles that can be shared by link or QR code. Analytics turn visits and interactions into real signals of interest.',
       },
       {
         id: 'volleyplus',
@@ -387,9 +422,13 @@ const it: Dict = {
     ghost: 'Vedi i servizi',
     scroll: 'Scroll',
   },
-  stats: { years: 'Anni di codice', custom: 'Su misura', direct: 'Assistenza diretta' },
+  stats: {
+    years: 'Processi più veloci',
+    custom: 'Decisioni basate su dati affidabili',
+    direct: 'Automazione che genera risultati',
+  },
   services: {
-    eyebrow: 'Servizi',
+    eyebrow: 'Soluzioni su misura',
     title: 'Ingegneria del software su misura',
     intro:
       "Dall'idea al deploy. Costruiamo prodotti digitali con codice pulito, performance reali e focus sul problema giusto.",
@@ -446,6 +485,10 @@ const it: Dict = {
     intro: 'Alcuni dei prodotti già online — dalla web app alla vetrina di portfolio. Clicca per visitare.',
     visit: 'Vedi progetto',
     liveExample: 'Vedi un esempio dal vivo',
+    gallery: {
+      publicProfile: 'Guarda il profilo pubblico — Renan Buiatti',
+      analytics: 'Analytics',
+    },
     items: [
       {
         id: 'playerson',
@@ -464,10 +507,13 @@ const it: Dict = {
       {
         id: 'playerson-app',
         kind: 'Piattaforma · SaaS',
-        title: 'PlayersOn',
-        desc: 'Profili pubblici di atleti con video dei momenti migliori e tutte le informazioni che un team manager deve avere per ingaggiare un atleta, tutto in un unico posto.',
+        title: 'Players Zone',
+        desc: 'Una rete professionale della pallavolo che collega atleti, squadre e procuratori attraverso profili, video e opportunità.',
         modalDesc:
-          'PlayersOn, una piattaforma multilingue (PT/IT/EN) di profili pubblici per atleti: ogni giocatore ha una pagina unica basata su slug, che combina dati, video e informazioni di contatto in un link condivisibile con QR code, con abbonamenti Pro integrati con Stripe e analytics integrato per visualizzazioni ed engagement.',
+          'Players Zone è una rete sociale internazionale dedicata alla pallavolo. Riunisce atleti, squadre, procuratori, agenzie e tifosi in un unico hub per scoprire talenti, seguire gli highlights e trasformare le prestazioni sportive in connessioni professionali.',
+        modalHowTitle: 'Come funziona',
+        modalHow:
+          'La home pubblica presenta la community e gli strumenti disponibili per ogni tipo di account. Dopo l’accesso, gli utenti possono cercare atleti, seguire i numeri della rete, guardare i video recenti, scoprire i profili più visti, consultare squadre, fondamentali e partite complete. Gli atleti pubblicano dati sportivi, carriera, risultati e video; squadre e procuratori filtrano i talenti e aprono profili condivisibili tramite link o QR code. Gli analytics trasformano visite e interazioni in segnali reali di interesse.',
       },
       {
         id: 'volleyplus',
